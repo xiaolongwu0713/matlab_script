@@ -12,7 +12,7 @@ if ~exist(Folder,'dir')
 end
 %cd(Folder);
 
-strname = strcat(base_dir,'/preprocessing/preprocessingv2.mat');
+strname = strcat(base_dir,'/preprocessing/preprocessingAll_v2.mat');
 load(strname, 'DATA', 'Trigger', 'Fs', 'ReactionTime');
 
 tampGap = 0;

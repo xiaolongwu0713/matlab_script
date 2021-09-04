@@ -136,7 +136,7 @@ for session = 1:sessionNum
     DATA{session} = data;
 end
 %%
-strname = strcat(address,'/preprocessing/preprocessingAll_v2.mat');
+strname = strcat(address,'/preprocessing/preprocessingv2.mat');
 save(strname,'DATA','Trigger','Fs', 'ReactionTime', 'GoodChns','BadTrial','WarningTrial', '-v7.3');
 
 end

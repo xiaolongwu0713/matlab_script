@@ -19,9 +19,9 @@ for subj = [5] %:length(SessionInf)
 %RJ_EEG_pre_v2(subj, SessionInf(subj));
 
 %%
-RJ_EEG_analysis_v4(subj, SessionInf(subj))
+%RJ_EEG_analysis_v4(subj, SessionInf(subj))
 %RJ_EEG_analysis_v5(subj, SessionInf(subj));
-close all;
-% RJ_EEG_analysis_v6(subj, SessionInf(subj));
+
+RJ_EEG_analysis_v6(subj, SessionInf(subj));
 % close all;
 end

@@ -5,14 +5,14 @@ pn=subj;
     fprintf('\n subj %d: RJ_EEG_analysis_v5', pn);
 
 base_dir=strcat('/Volumes/Samsung_T5/data/ruijin/gonogo/preprocessing/P',num2str(pn));
-Folder=strcat(base_dir,'/analysis2');
+Folder=strcat(base_dir,'/analysis_v5');
 %Folder=strcat('D:/lsj/RJ_preprocessing_data/P',num2str(pn),'/analysis_210627');
 if ~exist(Folder,'dir')
     mkdir(Folder);
 end
 %cd(Folder);
 
-strname = strcat(base_dir,'/preprocessing/preprocessingv2.mat');
+strname = strcat(base_dir,'/preprocessing/preprocessingAll_v2.mat');
 load(strname, 'DATA', 'Trigger', 'Fs', 'ReactionTime');
 
 tampGap = 0;
@@ -178,7 +178,7 @@ for chn = 1:channelNum
 %     NoGoNoGotfMean = (NoGoNoGotfSum / NoGoNoGoct - BASEMean) ./ BASEStd ;
     
     
-    GoGotfMean = GoGotfSum / GoGoct ./ BASEMean; % try median, try ERP
+    GoGotfMean = GoGotfSum / GoGoct ./ BASEMean;
     GoNoGotfMean = GoNoGotfSum / GoNoGoct ./ BASEMean;
     NoGoGotfMean = NoGoGotfSum / NoGoGoct ./ BASEMean;
     NoGoNoGotfMean = NoGoNoGotfSum / NoGoNoGoct ./ BASEMean;
