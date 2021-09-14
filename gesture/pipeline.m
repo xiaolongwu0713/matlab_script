@@ -18,12 +18,12 @@ for i = 1 : size(Inf, 1)
     % 剔除噪声通道.
      subInfo = config(pn);
 %     
-     %preprocessing1(pn, Fs, subInfo);
+     preprocessing1(pn, Fs, subInfo);
     %%
     % SEEG 信号预处理.
     % 滤波, 重参考, trigger 对齐为切片做准备.
     
-     preprocessing2(pn, 1000);
+     %preprocessing2(pn, 1000);
     %%
     % preprocess for DeepConvNet.
 %     preprocessing3(pn, 1000);

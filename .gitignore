@@ -1,11 +1,12 @@
 GoogleAutoML/
-codeLGY/
+#codeLGY/
 eeglab2020_0/
 eeglab2020_0.bak/
 force/
 iEEGview_V20190621/
 spm12/
 tmp/
+*.rar
 *.zip
 *.txt
 *.pth

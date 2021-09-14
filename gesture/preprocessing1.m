@@ -85,6 +85,6 @@ end
 
 good_channels = union(goodChns{1}, goodChns{2});
 %% save data file. 
-strname = strcat(address,'/preprocessing1_emg.mat'); 
+strname = strcat(address,'/preprocessing1_emg_del.mat'); 
 save(strname,'Datacell','good_channels','-v7.3');
 end
