@@ -325,8 +325,10 @@ pacz = zeros(size(times2plot));
 itpc = zeros(size(times2plot));
 
 % convert cfc times to indices
-cfc_time_window     = cfc_numcycles*(1000/freq4phase);
-cfc_time_window_idx = round(cfc_time_window/(1000/EEG.srate));
+% 1000/freq4phase means signal zhouqi(period T) in ms
+% cfc_numcycles*(1000/freq4phase): means how many time in ms for cfc_numcycles periods.
+cfc_time_window     = cfc_numcycles*(1000/freq4phase); 
+cfc_time_window_idx = round(cfc_time_window/(1000/EEG.srate)); % 1000/EEG.srate means sampling period.
 
 % other wavelet parameters
 time = -1:1/EEG.srate:1;
@@ -359,20 +361,23 @@ for timei=1:length(times2plot)
     
     
     % extract temporally localized power and phase from task data (not vectorized this time)
-    power_ts = abs(upper_freq_power(cfc_centertime_idx-round(cfc_time_window_idx/2):cfc_centertime_idx+round(cfc_time_window_idx/2),:)).^2;
-    phase_ts = angle(lower_freq_phase(cfc_centertime_idx-round(cfc_time_window_idx/2):cfc_centertime_idx+round(cfc_time_window_idx/2),:));
+    power_ts = abs(upper_freq_power(cfc_centertime_idx-round(cfc_time_window_idx/2):...
+        cfc_centertime_idx+round(cfc_time_window_idx/2),:)).^2; % size: 79    99
+    phase_ts = angle(lower_freq_phase(cfc_centertime_idx-round(cfc_time_window_idx/2):...
+        cfc_centertime_idx+round(cfc_time_window_idx/2),:));
     
     % compute observed PAC
-    obsPAC = abs(mean( power_ts(:).*exp(1i*phase_ts(:)) ));
+    obsPAC = abs(mean( power_ts(:).*exp(1i*phase_ts(:)) )); % average over window and trials
     % compute lower frequency ITPC
-    itpc(timei) = mean(abs(mean(exp(1i*phase_ts),2)));
+    itpc(timei) = mean(abs(mean(exp(1i*phase_ts),2))); % average over trial first;
     
     num_iter = 1000;
     permutedPAC = zeros(1,num_iter);
     for i=1:num_iter
         
         % in contrast to the previous code, this time-shifts the power time series only within trials. Results are similar using either method.
-        random_timepoint = randsample(round(cfc_time_window_idx*.8),EEG.trials,1)+round(cfc_time_window_idx*.1);
+        % reason for below random point: choose the middle 80% points, not the edge points.
+        random_timepoint = randsample(round(cfc_time_window_idx*.8),EEG.trials)+round(cfc_time_window_idx*.1);
         for triali=1:EEG.trials
             power_ts(:,triali) = power_ts([random_timepoint(triali):end 1:random_timepoint(triali)-1],triali);
         end
@@ -435,7 +440,7 @@ for fi=1:length(phase_freqs)
     for i=1:num_iter
         
         % in contrast to the previous code, this time-shifts the power time series only within trials. Results are similar using either method.
-        random_timepoint = randsample(round(cfc_time_window_idx*.8),EEG.trials,1)+round(cfc_time_window_idx*.1);
+        random_timepoint = randsample(round(cfc_time_window_idx*.8),EEG.trials)+round(cfc_time_window_idx*.1);
         for triali=1:EEG.trials
             power_ts(:,triali) = power_ts([random_timepoint(triali):end 1:random_timepoint(triali)-1],triali);
         end

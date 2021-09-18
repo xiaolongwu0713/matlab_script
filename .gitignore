@@ -6,6 +6,16 @@ force/
 iEEGview_V20190621/
 spm12/
 tmp/
+DICOM/
+
+# neural data
+*.dcm
+*.img
+*.hdr
+*.vtk
+
+
+
 *.rar
 *.zip
 *.txt

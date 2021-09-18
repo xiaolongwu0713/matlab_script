@@ -1,0 +1,146 @@
+pn = 5;
+file=strcat('/Volumes/Samsung_T5/data/ruijin/gonogo/preprocessing/P',num2str(pn),'/preprocessing/preprocessingv2.mat');
+load(file);
+
+data1=DATA{1,1};
+data2=DATA{1,2};
+trigger1=Trigger{1,1};
+trigger2=Trigger{1,2};
+trigger2(:,1)=trigger2(:,1)+size(data1,1);
+
+data=cat(1,data1,data2);
+trigger=cat(1,trigger1,trigger2); % latency, type, description_code(reaction time)
+
+eeglab;
+EEG = pop_importdata('dataformat','matlab','nbchan',0,'data',data','srate',Fs,'pnts',0,'xmin',0);
+[ALLEEG EEG CURRENTSET] = pop_newset(ALLEEG, EEG, CURRENTSET,'setname','raw','gui','off');
+EEG = pop_importevent( EEG, 'event',trigger,'fields',{'latency','type','duration'},'timeunit',NaN);
+[ALLEEG EEG] = eeg_store(ALLEEG, EEG, CURRENTSET);
+EEG = eeg_checkset( EEG );
+eeglab redraw;
+
+% dataset 2: epoch11
+EEG = pop_epoch( ALLEEG(1), {  '11'  }, [-7  4], 'newname', 'epoch11', 'epochinfo', 'yes');
+[ALLEEG EEG CURRENTSET] = pop_newset(ALLEEG, EEG, CURRENTSET,'gui','off');
+% dataset 3
+EEG = pop_epoch( ALLEEG(1), {  '12'  }, [-7  4], 'newname', 'epoch12', 'epochinfo', 'yes');
+[ALLEEG EEG CURRENTSET] = pop_newset(ALLEEG, EEG, CURRENTSET,'gui','off');
+% dataset 4
+EEG = pop_epoch( ALLEEG(1), {  '21'  }, [-1  4], 'newname', 'epoch21', 'epochinfo', 'yes');
+[ALLEEG EEG CURRENTSET] = pop_newset(ALLEEG, EEG, CURRENTSET,'gui','off');
+% dataset 5
+EEG = pop_epoch( ALLEEG(1), {  '22'  }, [-1  4], 'newname', 'epoch22', 'epochinfo', 'yes');
+[ALLEEG EEG CURRENTSET] = pop_newset(ALLEEG, EEG, CURRENTSET,'gui','off');
+eeglab redraw;
+
+% switch dataset to dataset 2 to 4 and plot raw with events
+[ALLEEG EEG CURRENTSET] = pop_newset(ALLEEG, EEG, 2,'retrieve',4,'study',0);
+pop_eegplot( EEG, 1, 1, 1);
+
+
+EEG = pop_pac(EEG,'Channels',[4 15],[80 150],[1],[1],'method','mvlmi','nboot',200,'alpha',[],'nfreqs1',4,'nfreqs2',20,'freqscale','log','bonfcorr',0);
+a=EEG.etc.eegpac.mvlmi.pacval;
+imagesc(squeeze(a(1,:,:)));
+ax = gca;
+xlabel('Time/s');ylabel('FrequEncy/Hz');
+ax.YDir = 'normal';
+load('/Users/long/Documents/BCI/matlab_scripts/common/MyColormaps.mat','mycmap')
+colormap(ax,mycmap)
+colorbar;
+caxis([-1.5,4]);
+
+times2plot = -200:100:1200;
+freq4phase = 10; % Hz
+freq4power = 25; 
+
+cfc_numcycles  = 3;   % number of cycles at phase-frequency
+
+pacz = zeros(size(times2plot));
+itpc = zeros(size(times2plot));
+
+% convert cfc times to indices
+% 1000/freq4phase means signal zhouqi(period T) in ms
+% cfc_numcycles*(1000/freq4phase): means how many time in ms for cfc_numcycles periods.
+cfc_time_window     = cfc_numcycles*(1000/freq4phase); 
+cfc_time_window_idx = round(cfc_time_window/(1000/EEG.srate)); % 1000/EEG.srate means sampling period.
+
+% other wavelet parameters
+time = -1:1/EEG.srate:1;
+half_of_wavelet_size = (length(time)-1)/2;
+n_wavelet     = length(time);
+n_data        = EEG.pnts*EEG.trials;
+n_convolution = n_wavelet+n_data-1;
+
+% FFT of scalp EEG data
+fft_EEG = fft(reshape(EEG.data(sensoridx,:,:),1,EEG.pnts*EEG.trials),n_convolution);
+
+for timei=1:length(times2plot)
+    
+    cfc_centertime_idx  = dsearchn(EEG.times',times2plot(timei));
+    
+    % convolution for lower frequency phase
+    wavelet            = exp(2*1i*pi*freq4phase.*time) .* exp(-time.^2./(2*(4/(2*pi*freq4phase))^2));
+    fft_wavelet        = fft(wavelet,n_convolution);
+    convolution_result = ifft(fft_wavelet.*fft_EEG,n_convolution);
+    convolution_result = convolution_result(half_of_wavelet_size+1:end-half_of_wavelet_size);
+    lower_freq_phase   = reshape(convolution_result,EEG.pnts,EEG.trials);
+    
+    % convolution for upper frequency power
+    wavelet            = exp(2*1i*pi*freq4power.*time) .* exp(-time.^2./(2*(4/(2*pi*freq4power))^2));
+    fft_wavelet        = fft(wavelet,n_convolution);
+    convolution_result = ifft(fft_wavelet.*fft_EEG,n_convolution);
+    convolution_result = convolution_result(half_of_wavelet_size+1:end-half_of_wavelet_size);
+    upper_freq_power   = reshape(convolution_result,EEG.pnts,EEG.trials);
+    
+    
+    
+    % extract temporally localized power and phase from task data (not vectorized this time)
+    power_ts = abs(upper_freq_power(cfc_centertime_idx-round(cfc_time_window_idx/2):...
+        cfc_centertime_idx+round(cfc_time_window_idx/2),:)).^2; % size: 79    99
+    phase_ts = angle(lower_freq_phase(cfc_centertime_idx-round(cfc_time_window_idx/2):...
+        cfc_centertime_idx+round(cfc_time_window_idx/2),:));
+    
+    % compute observed PAC
+    obsPAC = abs(mean( power_ts(:).*exp(1i*phase_ts(:)) )); % average over window and trials
+    % compute lower frequency ITPC
+    itpc(timei) = mean(abs(mean(exp(1i*phase_ts),2))); % average over trial first;
+    
+    num_iter = 1000;
+    permutedPAC = zeros(1,num_iter);
+    for i=1:num_iter
+        
+        % in contrast to the previous code, this time-shifts the power time series only within trials. Results are similar using either method.
+        % reason for below random point: choose the middle 80% points, not the edge points.
+        random_timepoint = randsample(round(cfc_time_window_idx*.8),EEG.trials)+round(cfc_time_window_idx*.1);
+        for triali=1:EEG.trials
+            power_ts(:,triali) = power_ts([random_timepoint(triali):end 1:random_timepoint(triali)-1],triali);
+        end
+        
+        permutedPAC(i) = abs(mean( power_ts(:).*exp(1i*phase_ts(:)) ));
+    end
+    
+    pacz(timei) = (obsPAC-mean(permutedPAC))/std(permutedPAC);
+end
+
+
+figure
+subplot(211)
+plot(times2plot,pacz,'-o','markerface','w')
+set(gca,'xlim',get(gca,'xlim').*[1.15 1.05]) % open the x-limits a bit
+
+% this next line computes the Z-value threshold at p=0.05, correcting for multiple comparisons across time points (this is a bit conservative because of temporal autocorrelation)
+% if you don't have the matlab stats toolbox, use a zval of 2.7131 (p<0.05 correcting for 15 time points/comparisons)
+zval = norminv(1-(.05/length(times2plot)));
+
+hold on
+plot(get(gca,'xlim'),[zval zval],'k:')
+plot(get(gca,'xlim'),[0 0],'k')
+xlabel('Time (ms)'), ylabel('PAC_z')
+
+title([ 'PAC_z at electrode ' channel2plot ' between ' num2str(freq4power) ' Hz power and ' num2str(freq4phase) ' Hz phase' ])
+
+% Also plot ITPC for comparison
+subplot(212)
+plot(times2plot,itpc,'-o','markerface','w')
+set(gca,'xlim',get(gca,'xlim').*[1.15 1.05]) % open the x-limits a bit
+title([ 'ITPC at electrode ' channel2plot ' at ' num2str(freq4phase) ' Hz' ])
