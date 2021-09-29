@@ -1,5 +1,8 @@
 pn = 5;
-file=strcat('/Volumes/Samsung_T5/data/ruijin/gonogo/preprocessing/P',num2str(pn),'/preprocessing/preprocessingv2.mat');
+data_dir='/Volumes/Samsung_T5/data/ruijin/gonogo';
+data_dir='.';
+file=strcat(data_dir,'/preprocessing/P',num2str(pn),'/preprocessing/preprocessingv2.mat');
+
 load(file);
 
 data1=DATA{1,1};
@@ -17,7 +20,7 @@ EEG = pop_importdata('dataformat','matlab','nbchan',0,'data',data','srate',Fs,'p
 EEG = pop_importevent( EEG, 'event',trigger,'fields',{'latency','type','duration'},'timeunit',NaN);
 [ALLEEG EEG] = eeg_store(ALLEEG, EEG, CURRENTSET);
 EEG = eeg_checkset( EEG );
-eeglab redraw;
+%eeglab redraw;
 
 % dataset 2: epoch11
 EEG = pop_epoch( ALLEEG(1), {  '11'  }, [-7  4], 'newname', 'epoch11', 'epochinfo', 'yes');
@@ -37,8 +40,8 @@ eeglab redraw;
 [ALLEEG EEG CURRENTSET] = pop_newset(ALLEEG, EEG, 2,'retrieve',4,'study',0);
 pop_eegplot( EEG, 1, 1, 1);
 
-
-EEG = pop_pac(EEG,'Channels',[4 15],[80 150],[1],[1],'method','mvlmi','nboot',200,'alpha',[],'nfreqs1',4,'nfreqs2',20,'freqscale','log','bonfcorr',0);
+% low frequency: 4-15, high frequency: 80-150;
+EEG = pop_pac(EEG,'Channels',[4 15],[80 150],[1,1,1,1,1],[1,2,3,4,5],'method','mvlmi','nboot',200,'alpha',[],'nfreqs1',4,'nfreqs2',20,'freqscale','log','bonfcorr',0);
 a=EEG.etc.eegpac.mvlmi.pacval;
 imagesc(squeeze(a(1,:,:)));%选取一个phase的frequency画图。
 ax = gca;
