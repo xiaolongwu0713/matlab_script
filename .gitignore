@@ -7,7 +7,7 @@ iEEGview_V20190621/
 spm12/
 tmp/
 DICOM/
-Tutorial_signal_processing/
+codeLGY/
 # neural data
 *.dcm
 *.img
