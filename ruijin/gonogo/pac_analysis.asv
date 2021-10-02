@@ -56,7 +56,7 @@ for chni = [1:63]
     if chni == 3
         fprintf('\n Pausing...  Press any key to resume.');
         pause
-        fprintf('\n Resume running...');
+        fprintf('\n Resumed');
     end
 end
 
