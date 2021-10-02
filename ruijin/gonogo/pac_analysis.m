@@ -41,6 +41,7 @@ eeglab redraw;
 %pop_eegplot( EEG, 1, 1, 1);
 
 % low frequency: 4-15, high frequency: 80-150;
+
 %EEG = pop_pac(EEG,'Channels',[4 15],[80 150],[1,1,1,1,1],[1,2,3,4,5],'method','mvlmi','nboot',200,'alpha',[],'nfreqs1',4,'nfreqs2',20,'freqscale','log','bonfcorr',0);
 
 
@@ -62,6 +63,7 @@ end
 
 %a=EEG.etc.eegpac.mvlmi{1}.pacval;
 %[a,b,c,d,e]=EEG.etc.eegpac.mvlmi;
+
 % imagesc(squeeze(a(1,:,:)));%选取一个phase的frequency画图。
 % ax = gca;
 % ax.YDir = 'normal';
