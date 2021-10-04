@@ -36,8 +36,8 @@ EEG = pop_epoch( ALLEEG(1), {  '22'  }, [-1  4], 'newname', 'epoch22', 'epochinf
 [ALLEEG EEG CURRENTSET] = pop_newset(ALLEEG, EEG, CURRENTSET,'gui','off');
 eeglab redraw;
 
-% switch dataset to dataset 2 to 4 and plot raw with events
-[ALLEEG EEG CURRENTSET] = pop_newset(ALLEEG, EEG, 2,'retrieve',4,'study',0);
+% switch dataset to dataset 2 from 5 and plot raw with events
+[ALLEEG EEG CURRENTSET] = pop_newset(ALLEEG, EEG, 5,'retrieve',2,'study',0);
 %pop_eegplot( EEG, 1, 1, 1);
 
 % low frequency: 4-15, high frequency: 80-150;
