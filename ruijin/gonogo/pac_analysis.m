@@ -36,33 +36,31 @@ EEG = pop_epoch( ALLEEG(1), {  '22'  }, [-1  4], 'newname', 'epoch22', 'epochinf
 [ALLEEG EEG CURRENTSET] = pop_newset(ALLEEG, EEG, CURRENTSET,'gui','off');
 eeglab redraw;
 
-% switch dataset to dataset 2 from 5 and plot raw with events
-[ALLEEG EEG CURRENTSET] = pop_newset(ALLEEG, EEG, 5,'retrieve',2,'study',0);
-%pop_eegplot( EEG, 1, 1, 1);
+% call pac analysis program
+pac_eegbook;
 
 % low frequency: 4-15, high frequency: 80-150;
-
 %EEG = pop_pac(EEG,'Channels',[4 15],[80 150],[1,1,1,1,1],[1,2,3,4,5],'method','mvlmi','nboot',200,'alpha',[],'nfreqs1',4,'nfreqs2',20,'freqscale','log','bonfcorr',0);
 
 
 %63**63 is waaaaaaaay too huge data
-for chni = [1:63]
-    chns=[1:63];
-    tmp = pop_pac(EEG,'Channels',[4 15],[80 150],repmat(chni,1,63),[1:63],'method','mvlmi','nboot',200,'alpha',[],'nfreqs1',4,'nfreqs2',20,'freqscale','log','bonfcorr',0);
-    param=tmp.etc.eegpac(1).params;
-    %A{chni}={EEG.etc.eegpac.mvlmi};
-    for ci =[1:63] 
-        field=strcat('c',num2str(chni),'_',num2str(ci));
-        result.(field)=tmp.etc.eegpac(ci).mvlmi.pacval;
-    end
-    if chni == 'ahaha'
-        fprintf('\n Pausing...  Press any key to resume.');
-        pause
-        fprintf('\n Resume running...');
-    end
-    
-end
-save('pac_result','result','param');
+% for chni = [1:63]
+%     chns=[1:63];
+%     tmp = pop_pac(EEG,'Channels',[4 15],[80 150],repmat(chni,1,63),[1:63],'method','mvlmi','nboot',200,'alpha',[],'nfreqs1',4,'nfreqs2',20,'freqscale','log','bonfcorr',0);
+%     param=tmp.etc.eegpac(1).params;
+%     %A{chni}={EEG.etc.eegpac.mvlmi};
+%     for ci =[1:63] 
+%         field=strcat('c',num2str(chni),'_',num2str(ci));
+%         result.(field)=tmp.etc.eegpac(ci).mvlmi.pacval;
+%     end
+%     if chni == 'ahaha'
+%         fprintf('\n Pausing...  Press any key to resume.');
+%         pause
+%         fprintf('\n Resume running...');
+%     end
+%     
+% end
+%save('pac_result','result','param');
 %a=EEG.etc.eegpac.mvlmi{1}.pacval;
 %[a,b,c,d,e]=EEG.etc.eegpac.mvlmi;
 

@@ -12,13 +12,6 @@ cfc_numcycles  = 3;   % number of cycles at phase-frequency
 pacz = zeros(size(times2plot));
 itpc = zeros(size(times2plot));
 
-% convert cfc times to indices
-% 1000/freq4phase means signal zhouqi(period T) in ms
-% cfc_numcycles*(1000/freq4phase): means time length in ms for cfc_numcycles periods.
-cfc_time_window     = cfc_numcycles*(1000/freq4phase); %300ms
-% time points in cfc_numcycles cycles
-cfc_time_window_idx = round(cfc_time_window/(1000/EEG.srate)); % 1000/EEG.srate means sampling period.
-
 % other wavelet parameters
 time = -1:1/EEG.srate:1;
 half_of_wavelet_size = (length(time)-1)/2;
@@ -28,12 +21,24 @@ n_convolution = n_wavelet+n_data-1;
 
 
 for c1 = channel1 % phase low frequency 
+    fprintf('Channle: %d.\n', c1); 
+  
     for c2 = channel2 % power high frequency
         for phasef = freq4phase
+            if phasef == 2
+                cfc_numcycles=2;
+            end
+            % convert cfc times to indices
+            % 1000/freq4phase means signal zhouqi(period T) in ms
+            % cfc_numcycles*(1000/freq4phase): means time length in ms for cfc_numcycles periods.
+            cfc_time_window     = cfc_numcycles*(1000/phasef); %300ms
+            % time points in cfc_numcycles cycles
+            cfc_time_window_idx = round(cfc_time_window/(1000/EEG.srate)); % 1000/EEG.srate means sampling period.
+    
             freq4power_num=length(freq4power);
-            one_phase=zeros(freq4power_num,size(times2plot));
+            one_phase=zeros(freq4power_num,size(times2plot,2));
             for powerf =freq4power
-                i=1;
+                j=1;
                 fft_EEG1= fft(reshape(EEG.data(c1,:,:),1,EEG.pnts*EEG.trials),n_convolution);
                 fft_EEG2= fft(reshape(EEG.data(c2,:,:),1,EEG.pnts*EEG.trials),n_convolution);
 
@@ -58,10 +63,21 @@ for c1 = channel1 % phase low frequency
 
 
                     % extract temporally localized power and phase from task data (not vectorized this time)
-                    power_ts = abs(upper_freq_power(cfc_centertime_idx-round(cfc_time_window_idx/2):...
-                        cfc_centertime_idx+round(cfc_time_window_idx/2),:)).^2; % size: 79    99
-                    phase_ts = angle(lower_freq_phase(cfc_centertime_idx-round(cfc_time_window_idx/2):...
+                    if timei==41
+                        power_ts = abs(upper_freq_power(cfc_centertime_idx-round(cfc_time_window_idx/2):...
+                        cfc_centertime_idx+round(cfc_time_window_idx/2)-1,:)).^2; % size: 79    99
+                    else
+                        power_ts = abs(upper_freq_power(cfc_centertime_idx-round(cfc_time_window_idx/2):...
+                        cfc_centertime_idx+round(cfc_time_window_idx/2),:)).^2;
+                    end
+                    
+                    if timei==41
+                        phase_ts = angle(lower_freq_phase(cfc_centertime_idx-round(cfc_time_window_idx/2):...
+                        cfc_centertime_idx+round(cfc_time_window_idx/2)-1,:));
+                    else
+                        phase_ts = angle(lower_freq_phase(cfc_centertime_idx-round(cfc_time_window_idx/2):...
                         cfc_centertime_idx+round(cfc_time_window_idx/2),:));
+                    end
 
                     % compute observed PAC
                     obsPAC = abs(mean( power_ts(:).*exp(1i*phase_ts(:)) )); % average over window and trials
@@ -84,33 +100,28 @@ for c1 = channel1 % phase low frequency
 
                     pacz(timei) = (obsPAC-mean(permutedPAC))/std(permutedPAC);
                 end
-                one_phase(i,:)=pacz;
+                one_phase(j,:)=pacz;
+                j=j+1;
             end
             comb=strcat('c',num2str(c1),'_',num2str(c2),'_',num2str(phasef));
             result.comb=one_phase;
         end
     end
 end
-
-
-figure
-subplot(211)
-plot(times2plot,pacz,'-o','markerface','w')
-set(gca,'xlim',get(gca,'xlim').*[1.15 1.05]) % open the x-limits a bit
-
-% this next line computes the Z-value threshold at p=0.05, correcting for multiple comparisons across time points (this is a bit conservative because of temporal autocorrelation)
-% if you don't have the matlab stats toolbox, use a zval of 2.7131 (p<0.05 correcting for 15 time points/comparisons)
-zval = norminv(1-(.05/length(times2plot)));
-
-hold on
-plot(get(gca,'xlim'),[zval zval],'k:')
-plot(get(gca,'xlim'),[0 0],'k')
-xlabel('Time (ms)'), ylabel('PAC_z')
-
-title([ 'PAC_z at electrode ' channel2plot ' between ' num2str(freq4power) ' Hz power and ' num2str(freq4phase) ' Hz phase' ])
-
-% Also plot ITPC for comparison
-subplot(212)
-plot(times2plot,itpc,'-o','markerface','w')
-set(gca,'xlim',get(gca,'xlim').*[1.15 1.05]) % open the x-limits a bit
-title([ 'ITPC at electrode ' channel2plot ' at ' num2str(freq4phase) ' Hz' ])
+% 
+% 
+% figure
+% subplot(211)
+% plot(times2plot,pacz,'-o','markerface','w')
+% set(gca,'xlim',get(gca,'xlim').*[1.15 1.05]) % open the x-limits a bit
+% 
+% % this next line computes the Z-value threshold at p=0.05, correcting for multiple comparisons across time points (this is a bit conservative because of temporal autocorrelation)
+% % if you don't have the matlab stats toolbox, use a zval of 2.7131 (p<0.05 correcting for 15 time points/comparisons)
+% zval = norminv(1-(.05/length(times2plot)));
+% 
+% hold on
+% plot(get(gca,'xlim'),[zval zval],'k:')
+% plot(get(gca,'xlim'),[0 0],'k')
+% xlabel('Time (ms)'), ylabel('PAC_z')
+% 
+% title([ 'PAC_z at electrode ' channel2plot ' between ' num2str(freq4power) ' Hz power and ' num2str(freq4phase) ' Hz phase' ])
