@@ -49,10 +49,11 @@ eeglab redraw;
 for chni = [1:63]
     chns=[1:63];
     tmp = pop_pac(EEG,'Channels',[4 15],[80 150],repmat(chni,1,63),[1:63],'method','mvlmi','nboot',200,'alpha',[],'nfreqs1',4,'nfreqs2',20,'freqscale','log','bonfcorr',0);
+    param=tmp.etc.eegpac(1).params;
     %A{chni}={EEG.etc.eegpac.mvlmi};
     for ci =[1:63] 
         field=strcat('c',num2str(chni),'_',num2str(ci));
-        A.(field)=tmp.etc.eegpac(ci).mvlmi.pacval;
+        result.(field)=tmp.etc.eegpac(ci).mvlmi.pacval;
     end
     if chni == 'ahaha'
         fprintf('\n Pausing...  Press any key to resume.');
@@ -61,7 +62,7 @@ for chni = [1:63]
     end
     
 end
-save('pac_result','A','B');
+save('pac_result','result','param');
 %a=EEG.etc.eegpac.mvlmi{1}.pacval;
 %[a,b,c,d,e]=EEG.etc.eegpac.mvlmi;
 
