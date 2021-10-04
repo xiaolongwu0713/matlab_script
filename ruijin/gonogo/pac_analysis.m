@@ -54,13 +54,14 @@ for chni = [1:63]
         field=strcat('c',num2str(chni),'_',num2str(ci));
         A.(field)=tmp.etc.eegpac(ci).mvlmi.pacval;
     end
-    if chni == 3
+    if chni == 'ahaha'
         fprintf('\n Pausing...  Press any key to resume.');
         pause
         fprintf('\n Resume running...');
     end
+    
 end
-
+save('pac_result','A','B');
 %a=EEG.etc.eegpac.mvlmi{1}.pacval;
 %[a,b,c,d,e]=EEG.etc.eegpac.mvlmi;
 
