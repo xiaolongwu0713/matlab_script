@@ -104,7 +104,7 @@ for c1 = channel1 % phase low frequency
                 j=j+1;
             end
             comb=strcat('c',num2str(c1),'_',num2str(c2),'_',num2str(phasef));
-            result.comb=one_phase;
+            result.(comb)=one_phase;
         end
     end
 end
