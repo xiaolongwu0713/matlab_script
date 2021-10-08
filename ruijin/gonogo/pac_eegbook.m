@@ -37,8 +37,8 @@ for c1 = channel1 % phase low frequency
     
             freq4power_num=length(freq4power);
             one_phase=zeros(freq4power_num,size(times2plot,2));
+            j=1;
             for powerf =freq4power
-                j=1;
                 fft_EEG1= fft(reshape(EEG.data(c1,:,:),1,EEG.pnts*EEG.trials),n_convolution);
                 fft_EEG2= fft(reshape(EEG.data(c2,:,:),1,EEG.pnts*EEG.trials),n_convolution);
 
