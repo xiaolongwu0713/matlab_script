@@ -328,6 +328,7 @@ itpc = zeros(size(times2plot));
 % 1000/freq4phase means signal zhouqi(period T) in ms
 % cfc_numcycles*(1000/freq4phase): means time length in ms for cfc_numcycles periods.
 cfc_time_window     = cfc_numcycles*(1000/freq4phase); 
+% time point number in the window
 cfc_time_window_idx = round(cfc_time_window/(1000/EEG.srate)); % 1000/EEG.srate means sampling period.
 
 % other wavelet parameters

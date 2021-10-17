@@ -1,3 +1,4 @@
+%%
 pn = 5;
 data_dir='/Volumes/Samsung_T5/data/ruijin/gonogo';
 data_dir='.';
@@ -36,8 +37,10 @@ EEG = pop_epoch( ALLEEG(1), {  '22'  }, [-1  4], 'newname', 'epoch22', 'epochinf
 [ALLEEG EEG CURRENTSET] = pop_newset(ALLEEG, EEG, CURRENTSET,'gui','off');
 eeglab redraw;
 
-% call pac analysis program
-pac_eegbook;
+%%
+% call pac analysis program on event 22
+pac_eegbook1;
+pac_eegbook2;
 
 % low frequency: 4-15, high frequency: 80-150;
 %EEG = pop_pac(EEG,'Channels',[4 15],[80 150],[1,1,1,1,1],[1,2,3,4,5],'method','mvlmi','nboot',200,'alpha',[],'nfreqs1',4,'nfreqs2',20,'freqscale','log','bonfcorr',0);
