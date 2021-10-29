@@ -8,7 +8,7 @@ if strcmp(strip(name),'longsMac')
 elseif strcmp(strip(name),'workstation')
     raw_dir='H:/Long/data/gesture/Raw_Data_All/';
     electrode_dir='H:/Long/data/gesture/EleCTX_Files/';
-    processing_dir='H:/Long/data/gesture/Raw_Data_All/preprocessing/';
+    processing_dir='H:/Long/data/gesture/preprocessing/';
 end
 
 %% process all together
