@@ -1,7 +1,7 @@
 function pre_3_Algorithm_v3(subj, fs)
 %% preprocess for Algorithm.
 
-    fprintf('\n subj %d: pre_3_Algorithm_v3', subj);
+fprintf('\n subj %d: pre_3_Algorithm_v3', subj);
 pn = subj;
 Fs = fs;
 sessionNum = 2;

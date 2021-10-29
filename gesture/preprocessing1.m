@@ -53,7 +53,7 @@ for i=1:sessionNum
     
 %% filter the EMG data
     EMG = Data(:, SubInfo.EmgChn);
-    nEMG = size(EMG, 2);
+    nEMG = size(EMG, 2); % 2 channel EMG
    
 %      	Notch IIRCOMB filter
     F0=50;q=30;
@@ -76,7 +76,7 @@ for i=1:sessionNum
     
     figure(3);clf;
     Data = Data(:, SubInfo.UseChn);
-    Data = [Data, EMG,EMGDIF, feaLabel]; % include EMG data
+    Data = [Data, EMG,EMGDIF, feaLabel]; % include EMG data:(eegdata,emgx2channel,emgdiffx1channel,featurelabel)
     good_channels = remove_bad_channels(Data(:, 1:end-4), Fs, 10);
     
     goodChns{i} = good_channels;
@@ -85,6 +85,6 @@ end
 
 good_channels = union(goodChns{1}, goodChns{2});
 %% save data file. 
-strname = strcat(address,'/preprocessing1_emg_del.mat'); 
+strname = strcat(address,'/preprocessing1.mat'); 
 save(strname,'Datacell','good_channels','-v7.3');
 end

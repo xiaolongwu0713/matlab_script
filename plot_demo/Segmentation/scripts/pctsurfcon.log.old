@@ -1,0 +1,9 @@
+Logfile for pctsurfcon
+Mon Nov  7 06:19:13 EST 2016
+setenv SUBJECTS_DIR /usr/local/freesurfer/subjects
+cd /usr/local/freesurfer/subjects/S2_Demo/scripts
+/usr/local/freesurfer/bin/pctsurfcon
+$Id: pctsurfcon,v 1.11.2.1 2011/11/10 20:37:10 nicks Exp $
+Linux xubuntu-VirtualBox 3.2.0-23-generic #36-Ubuntu SMP Tue Apr 10 20:41:14 UTC 2012 i686 i686 i386 GNU/Linux
+FREESURFER_HOME /usr/local/freesurfer
+Cleaning up

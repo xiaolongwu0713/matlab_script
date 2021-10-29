@@ -1,0 +1,474 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Original author Shiwei Peng @2018.12.20 @SJTU @pengshiwei123@163.com  %
+% This procedure is for Analysis of the force of SEEG signal            %
+% Under MATLAB R2016A                                                   %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+function varargout = demo(varargin)
+% DEMO MATLAB code for demo.fig
+%      DEMO, by itself, creates a new DEMO or raises the existing
+%      singleton*.
+%
+%      H = DEMO returns the handle to a new DEMO or the handle to
+%      the existing singleton*.
+%
+%      DEMO('CALLBACK',hObject,eventData,handles,...) calls the local
+%      function named CALLBACK in DEMO.M with the given input arguments.
+%
+%      DEMO('Property','Value',...) creates a new DEMO or raises the
+%      existing singleton*.  Starting from the left, property value pairs are
+%      applied to the GUI before demo_OpeningFcn gets called.  An
+%      unrecognized property name or invalid value makes property application
+%      stop.  All inputs are passed to demo_OpeningFcn via varargin.
+%
+%      *See GUI Options on GUIDE's Tools menu.  Choose "GUI allows only one
+%      instance to run (singleton)".
+%
+% See also: GUIDE, GUIDATA, GUIHANDLES
+
+% Edit the above text to modify the response to help demo
+
+% Last Modified by GUIDE v2.5 07-Mar-2019 10:22:25
+
+% Begin initialization code - DO NOT EDIT
+gui_Singleton = 1;
+gui_State = struct('gui_Name',       mfilename, ...
+                   'gui_Singleton',  gui_Singleton, ...
+                   'gui_OpeningFcn', @demo_OpeningFcn, ...
+                   'gui_OutputFcn',  @demo_OutputFcn, ...
+                   'gui_LayoutFcn',  [] , ...
+                   'gui_Callback',   []);
+if nargin && ischar(varargin{1})
+    gui_State.gui_Callback = str2func(varargin{1});
+end
+
+if nargout
+    [varargout{1:nargout}] = gui_mainfcn(gui_State, varargin{:});
+else
+    gui_mainfcn(gui_State, varargin{:});
+end
+% End initialization code - DO NOT EDIT
+
+
+% --- Executes just before demo is made visible.
+function demo_OpeningFcn(hObject, eventdata, handles, varargin)
+% This function has no output args, see OutputFcn.
+% hObject    handle to figure
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+% varargin   command line arguments to demo (see VARARGIN)
+mvc=0;
+seeg_force=0;
+actual_force=0;
+error_rate=0;
+set(handles.mvc,'String',num2str(mvc));   %可编辑文本框初始化 mvc（力的最大值）
+set(handles.seeg_force,'String',num2str(seeg_force));  
+set(handles.actual_force,'String',num2str(actual_force)); 
+set(handles.bias,'String',num2str(error_rate)); 
+set(gcf,'color','w');
+
+% Choose default command line output for demo
+handles.output = hObject;
+
+% Update handles structure
+guidata(hObject, handles);
+
+% UIWAIT makes demo wait for user response (see UIRESUME)
+% uiwait(handles.figure1);
+
+
+% --- Outputs from this function are returned to the command line.
+function varargout = demo_OutputFcn(hObject, eventdata, handles) 
+% varargout  cell array for returning output args (see VARARGOUT);
+% hObject    handle to figure
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Get default command line output from handles structure
+varargout{1} = handles.output;
+
+
+function protocal_Callback(hObject, eventdata, handles)
+    
+function protocal_CreateFcn(hObject, eventdata, handles)
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+function start_Callback(hObject, eventdata, handles)
+if(get(hObject,'value'))
+        isPaused=true;
+end
+%%%%创建时钟%%%%%
+% time=timer('StartDelay',0,'TimerFcn',@t_TimerFcn,'Period',25,'ExecutionMode','fixedRate');
+% start(time);
+% %%创建小球
+axes(handles.axes1);
+hBobble1=line('xdata',0,'ydata',1,'marker','o','markerfacecolor','black','markersize',8);
+hBobble2=line('xdata',0,'ydata',1,'marker','o','markerfacecolor','yellow','markersize',8);
+hold on
+% t=0:0.001:15; %1000hz 15s 15000个数据 步长为1/1000 可能要降维到400hz
+t=0:0.1:15;
+t1=0:0.1:30;
+
+%%%%%% 输入数据并判断是哪一种范式
+%%%%  axes1 显示范式
+load('order.mat');
+    
+%读入数据
+% %%%%% axes2 EMG
+%     axes(handles.axes2);
+%     %%%% read data %%%%
+%     filename = '.\data1.txt';
+%     [data1,~,~,~,~,~,~,~,~,~,~]=textread(filename,'%n%n%n%n%n%n%n%n%n%n%n');
+%     m1=data1;
+%     h1= animatedline;
+%     set(gca,'xlim',[0 15]);
+%     grid on
+% %%%%% axes3 ch01
+%     axes(handles.axes3);
+%     [~,data2,~,~,~,~,~,~,~,~,~]=textread(filename,'%n%n%n%n%n%n%n%n%n%n%n');
+%     m2=data2;
+%     h2= animatedline;
+%     set(gca,'xlim',[0 15]);
+%     grid on
+% %%%%% axes4 ch02
+%     axes(handles.axes4);
+%     [~,~,data3,~,~,~,~,~,~,~,~]=textread(filename,'%n%n%n%n%n%n%n%n%n%n%n');
+%     m3=data3;
+%     h3= animatedline;
+%     set(gca,'xlim',[0 15]);
+%     grid on
+% %%%%% axes5 ch03
+%     axes(handles.axes5);
+%      [~,~,~,data4,~,~,~,~,~,~,~]=textread(filename,'%n%n%n%n%n%n%n%n%n%n%n');
+%     m4=data4;
+%     h4= animatedline;
+%     set(gca,'xlim',[0 15]);
+%     grid on
+% %%%%% axes6 ch04
+%     axes(handles.axes6);
+%      [~,~,~,~,data5,~,~,~,~,~,~]=textread(filename,'%n%n%n%n%n%n%n%n%n%n%n');
+%     m5=data5;
+%     h5= animatedline;
+%     set(gca,'xlim',[0 15]);
+%     grid on
+% %%%%% axes7 ch05
+%     axes(handles.axes7);
+%      [~,~,~,~,~,data6,~,~,~,~,~]=textread(filename,'%n%n%n%n%n%n%n%n%n%n%n');
+%     m6=data6;
+%     h6= animatedline;
+%     set(gca,'xlim',[0 15]);
+%     grid on
+% end
+load('data1.mat');
+load('data2.mat');
+load('data3.mat');
+load('data4.mat');
+load('data5.mat');
+load('data6.mat');
+axes(handles.axes2);h1=animatedline;
+axes(handles.axes3);h2=animatedline;
+axes(handles.axes4);h3=animatedline;
+axes(handles.axes5);h4=animatedline;
+axes(handles.axes6);h5=animatedline;
+axes(handles.axes7);h6=animatedline;
+
+%%%%% 画小球轨迹 %%%%%%%
+nPos=length(t);
+nTime=length(t1);
+iTime=1;
+iPos=1;
+i=1;
+n=1;
+%delt=1/200000000; %更新的周期，速度快慢
+global y1 y2;
+while(isPaused && i~=10)
+%%%%设置断点 计算brain activations%%%%
+    if(iTime==0.5*n*(nPos-1) && iTime~=nTime)
+        cla(handles.active_brain,'reset');
+        axes(handles.active_brain);
+        show_activations();
+        n=n+1;
+    end
+%%%%%选择范式
+    axes(handles.axes1)
+    flag=order(i);
+    select_protocal(flag);
+    if(flag==1)
+        set(handles.protocal,'string','20% MVC Slow');  
+    end
+    if(flag==2)
+        set(handles.protocal,'string','60% MVC Slow');
+    end
+    if(flag==3)
+        set(handles.protocal,'string','20% MVC Fast');
+    end
+     if(flag==4)
+        set(handles.protocal,'string','60% MVC Fast');
+     end
+    axes(handles.axes1);
+%     hBobble1=line('xdata',0,'ydata',1,'marker','o','markerfacecolor','black','markersize',8);
+%     hBobble2=line('xdata',0,'ydata',1,'marker','o','markerfacecolor','yellow','markersize',8); 
+    set(hBobble1,'xdata',t(iPos),'ydata',y1(iPos));
+    set(hBobble2,'xdata',t(iPos),'ydata',y2(iPos));
+    drawnow;
+%%%%数据显示%%%%%
+    m1=data1;
+    m2=data2;
+    m3=data3;
+    m4=data4;
+    m5=data5;
+    m6=data6;
+    axes(handles.axes2);
+    addpoints(h1,t1(iPos+(i-1)*nPos),m1(iPos+(i-1)*nPos));
+    set(gca,'xlim',[15*i-15 15*i]);
+    grid on
+    axes(handles.axes3);
+    addpoints(h2,t1(iPos+(i-1)*nPos),m2(iPos+(i-1)*nPos));
+    set(gca,'xlim',[15*i-15 15*i]);
+    grid on
+    axes(handles.axes4);
+    addpoints(h3,t1(iPos+(i-1)*nPos),m3(iPos+(i-1)*nPos));
+    set(gca,'xlim',[15*i-15 15*i]);
+    grid on
+    axes(handles.axes5);
+    addpoints(h4,t1(iPos+(i-1)*nPos),m4(iPos+(i-1)*nPos));
+    set(gca,'xlim',[15*i-15 15*i]);
+    grid on
+    axes(handles.axes6);
+    addpoints(h5,t1(iPos+(i-1)*nPos),m5(iPos+(i-1)*nPos));
+    set(gca,'xlim',[15*i-15 15*i]);
+    grid on
+    axes(handles.axes7);
+    addpoints(h6,t1(iPos+(i-1)*nPos),m6(iPos+(i-1)*nPos));
+    set(gca,'xlim',[15*i-15 15*i]);
+    grid on
+    %%%%% save data
+%     str=['C:\Users\lenovo\Desktop','data.xls'];
+%     seeg_force=get(handles.seeg_force,'value');
+%     actual_force=get(handles.actual_force,'value');
+%     bias=get(handles.bias,'value');
+%     dataExcel=cell(length(t),3);
+%     dataExcel(iPos,1)={seeg_force};
+%     dataExcel(iPos,2)={actual_force};
+%     dataExcel(iPos,3)={bias};
+%     xlswrite(str,dataExcel);
+%     a=a+0.05;    %加的这个值（0.05）要与t相对应
+%     axis([a a+2*pi -110 110]); %移动坐标轴
+    drawnow;
+    %pause(delt)
+    iPos=iPos+1;
+    iTime=iTime+1;
+    if (iPos==nPos+1)
+        i=i+1;
+        iPos=1;
+        cla(handles.axes1,'reset');
+        cla(handles.axes2,'reset');
+        cla(handles.axes3,'reset');
+        cla(handles.axes4,'reset');
+        cla(handles.axes5,'reset');
+        cla(handles.axes6,'reset');
+        cla(handles.axes7,'reset');
+        axes(handles.axes1);
+        hBobble1=line('xdata',0,'ydata',1,'marker','o','markerfacecolor','black','markersize',8);
+        hBobble2=line('xdata',0,'ydata',1,'marker','o','markerfacecolor','yellow','markersize',8);
+        hold on
+        axes(handles.axes2);h1=animatedline;
+        axes(handles.axes3);h2=animatedline;
+        axes(handles.axes4);h3=animatedline;
+        axes(handles.axes5);h4=animatedline;
+        axes(handles.axes6);h5=animatedline;
+        axes(handles.axes7);h6=animatedline;
+    end
+end
+% if(i==10)
+%     stop(timer);
+% end
+
+
+function pause_Callback(hObject, eventdata, handles)
+findall(gcf,'type','axes')
+if(get(hObject,'value'))
+    uiwait;
+else
+    uiresume;
+end
+    
+
+function reset_Callback(hObject, eventdata, handles)
+if(get(hObject,'value'))
+    cla(handles.axes1)
+    cla(handles.axes2)
+    cla(handles.axes3)
+    cla(handles.axes4)
+    cla(handles.axes5)
+    cla(handles.axes6)
+    cla(handles.axes7)
+    cla(handles.active_brain)
+    cla(handles.show_electrodes_1)
+    set(handles.protocal,'string',' ');
+end
+
+function active_brain_CreateFcn(hObject, eventdata, handles)
+set(hObject,'xTick',[]);
+set(hObject,'ytick',[]);
+set(hObject,'box','on');
+set(get(hObject,'title'),'string','active  brain');
+
+
+function show_electrodes_1_CreateFcn(hObject, eventdata, handles)
+set(hObject,'xTick',[]);
+set(hObject,'ytick',[]);
+set(hObject,'box','on');
+set(get(hObject,'title'),'string','show  electrodes');
+
+function select_side_1_Callback(hObject, eventdata, handles)
+%%画大脑电极
+addpath(genpath([cd,'\nicebrain']));
+Electrode_Folder=[cd,'\ShuYunFan\Electrodes\electrodes_Final_Anatomy_wm_All.mat']; % input electrode file folder here
+Brain_Model_Folder=[cd,'\ShuYunFan\BrainModel\WholeCortex.mat'];% input brain cortex file folder here
+load(Electrode_Folder);
+load(Brain_Model_Folder);
+%
+Etala.electrodes=cell2mat(elec_Info_Final_wm.pos');
+
+val=get(hObject,'value');
+switch val
+    case 1
+        axes(handles.show_electrodes_1);
+        viewBrain(cortex, Etala, {'brain','electrodes'}, 0.1, 50, 'front');
+    case 2
+        cla(handles.show_electrodes_1);
+        axes(handles.show_electrodes_1);
+        viewBrain(cortex, Etala, {'brain','electrodes'}, 0.1, 50,'top');
+    case 3
+        cla(handles.show_electrodes_1);
+        axes(handles.show_electrodes_1);
+        viewBrain(cortex, Etala, {'brain','electrodes'}, 0.1, 50,'lateral');
+    case 4
+        cla(handles.show_electrodes_1);
+        axes(handles.show_electrodes_1);
+        viewBrain(cortex, Etala, {'brain','electrodes'}, 0.1, 50, 'isometric');
+    case 5
+        cla(handles.show_electrodes_1);
+        axes(handles.show_electrodes_1);
+        viewBrain(cortex, Etala, {'brain','electrodes'}, 0.1, 50, 'right');
+    case 6
+        cla(handles.show_electrodes_1);
+        axes(handles.show_electrodes_1);
+        viewBrain(cortex, Etala, {'brain','electrodes'}, 0.1, 50, 'left');
+end
+axis off;
+colorbar off
+
+
+function select_side_1_CreateFcn(hObject, eventdata, handles)
+
+% Hint: popupmenu controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+function select_side_2_Callback(hObject, eventdata, handles)
+global val
+get(
+axes(handles.show_electrodes_2);
+show_electrodes();
+
+
+function select_side_2_CreateFcn(hObject, eventdata, handles)
+
+% Hint: popupmenu controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+function select_side_3_Callback(hObject, eventdata, handles)
+show_electrodes();
+
+function select_side_3_CreateFcn(hObject, eventdata, handles)
+
+% Hint: popupmenu controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+function Show_Activations_Callback(hObject, eventdata, handles)
+axes(handles.active_brain);
+show_activations();
+
+function actual_force_Callback(hObject, eventdata, handles)
+
+
+function actual_force_CreateFcn(hObject, eventdata, handles)
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+function mvc_CreateFcn(hObject, eventdata, handles)
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+function seeg_force_Callback(hObject, eventdata, handles)
+
+
+function seeg_force_CreateFcn(hObject, eventdata, handles)
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+function bias_Callback(hObject, eventdata, handles)
+
+
+function bias_CreateFcn(hObject, eventdata, handles)
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+function save_data_Callback(hObject, eventdata, handles)
+% [fName,pName,index]=uiputfile('*.xls','另存为');
+% if index && strcmp(fName(end-3:end),'.xls')
+    str=['C:\Users\lenovo\Desktop','data.xls'];
+%     for t=0:0.001:15
+        seeg_force=get(handles.seeg_force,'value');
+        actual_force=get(handles.actual_force,'value');
+        bias=get(handles.bias,'value');
+        dataExcel=cell(length(t),3);
+        dataExcel(iPos,1)={seeg_force};
+        dataExcel(iPos,2)={actual_force};
+        dataExcel(iPos,3)={bias};
+        xlswrite(str,dataExcel);
+%     end
+% end
+
+
+function show_colormap_Callback(hObject, eventdata, handles)
+
+
+function EMG_Colormap_CreateFcn(hObject, eventdata, handles)
+set(hObject,'xTick',[]);
+set(hObject,'ytick',[]);
+set(hObject,'box','on');
+set(get(hObject,'title'),'string','EMG  Colormap');
+
+
+

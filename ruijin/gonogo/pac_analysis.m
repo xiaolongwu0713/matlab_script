@@ -1,7 +1,12 @@
 %%
+[a,computer]=system('hostname');
 pn = 5;
-data_dir='/Volumes/Samsung_T5/data/ruijin/gonogo';
-data_dir='.';
+if strcmp(strip(computer),'longsMac')
+    data_dir='/Volumes/Samsung_T5/data/ruijin/gonogo';
+elseif strcmp(strip(computer),'workstation')
+    data_dir='C:/Users/wuxiaolong/Desktop/BCI/data/ruijin/gonogo';
+end
+
 file=strcat(data_dir,'/preprocessing/P',num2str(pn),'/preprocessing/preprocessingv2.mat');
 
 load(file);
