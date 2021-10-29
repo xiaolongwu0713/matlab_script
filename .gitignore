@@ -8,9 +8,10 @@ spm12/
 tmp/
 DICOM/
 codeLGY/
-wangmeng/Master Thesis/
-wangmeng/MatLabCustToolbox/
-wangmeng/standard brain/
+#wangmeng/Master Thesis/
+#wangmeng/MatLabCustToolbox/
+#wangmeng/standard brain/
+wangmeng/
 # neural data
 *.dcm
 *.img
