@@ -24,6 +24,7 @@ wangmeng/
 *.pth
 *.npy
 *.mat
+*.jpg
 *.png
 *.pdf
 .idea/
