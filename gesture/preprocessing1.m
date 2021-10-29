@@ -1,9 +1,10 @@
-function [Datacell, good_channels] = pre_1_Algorithm(subj, fs, subInfo)
+function [Datacell, good_channels] = preprocessing1(subj, fs, subInfo)
 %% 数据预处理.
 % 1. 在 Data 后加 feature label.
 % 2. 对 EMG 滤波.
 % 3. 筛选 bad_Chn, 2 sessions 取交集为 bad_Chn.
-     fprintf('\n subj %d: preprocessing1 .....', subj);
+fprintf('\n subj %d: preprocessing1 .....', subj);
+global raw_dir processing_dir;
 pn = subj;  
    
 SubInfo.Session_num = subInfo.Session_num; 

@@ -1,4 +1,4 @@
-function [Datacell, channelNum] = pre_2_Algorithm(subj, fs)
+function [Datacell, channelNum] = preprocessing2(subj, fs)
 %%
     fprintf('\n subj %d: preprocessing2....', subj);
 pn = subj;

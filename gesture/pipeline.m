@@ -5,8 +5,8 @@ if strcmp(strip(name),'longsMac')
     raw_dir='/Volumes/Samsung_T5/data/gesture/Raw_Data_All/';
     processing_dir='/Volumes/Samsung_T5/data/gesture/preprocessing/';
 elseif strcmp(strip(name),'workstation')
-    raw_dir='H:/Long/Raw_Data_All/';
-    processing_dir='H:/Long/Raw_Data_All/preprocessing/';
+    raw_dir='H:/Long/data/gesture/Raw_Data_All/';
+    processing_dir='H:/Long/data/gesture/Raw_Data_All/preprocessing/';
 end
 
 %% process all together
@@ -16,9 +16,9 @@ Inf = [2, 1000; 3, 1000; 4, 1000; 5, 1000; 7, 1000; 8, 1000; 9, 1000; 10, 2000; 
        29, 2000; 30, 2000; 31, 2000; 32, 2000; 34, 2000; 35, 1000; % 28, 2000; 33,    24, 2000; 25, 2000; 26, 2000; 
        36, 2000; 37, 2000; 41,2000;
        ];
-%goodSubj = [1,2,3,8,9,12,16,18,21,22,26];
+goodSubj = [1,2,3,8,9,12,16,18,21,22,26];
 %goodSubj = [2,3,8,9,12,16,18,21,22,26];
-goodSubj = [8,];
+%goodSubj = [8,];
 Inf = Inf(goodSubj,:);
 
 for i = 1 : size(Inf, 1)
