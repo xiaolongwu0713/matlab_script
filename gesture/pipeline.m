@@ -1,3 +1,14 @@
+%%
+global raw_dir processing_dir;
+[ret, name] = system('hostname');
+if strcmp(strip(name),'longsMac')
+    raw_dir='/Volumes/Samsung_T5/data/gesture/Raw_Data_All/';
+    processing_dir='/Volumes/Samsung_T5/data/gesture/preprocessing/';
+elseif strcmp(strip(name),'workstation')
+    raw_dir='H:/Long/Raw_Data_All/';
+    processing_dir='H:/Long/Raw_Data_All/preprocessing/';
+end
+
 %% process all together
 %  process pipline.
 Inf = [2, 1000; 3, 1000; 4, 1000; 5, 1000; 7, 1000; 8, 1000; 9, 1000; 10, 2000; % 11, 500; 12, 500;
@@ -6,6 +17,7 @@ Inf = [2, 1000; 3, 1000; 4, 1000; 5, 1000; 7, 1000; 8, 1000; 9, 1000; 10, 2000; 
        36, 2000; 37, 2000; 41,2000;
        ];
 %goodSubj = [1,2,3,8,9,12,16,18,21,22,26];
+%goodSubj = [2,3,8,9,12,16,18,21,22,26];
 goodSubj = [8,];
 Inf = Inf(goodSubj,:);
 
@@ -13,17 +25,17 @@ for i = 1 : size(Inf, 1)
     pn = Inf(i, 1);
     Fs = Inf(i, 2);
     %%
-    % 找到 trigger 向量.
+    % 合并 trigger 向量.
     % EMG 信号的预处理.
     % 剔除噪声通道.
-     subInfo = config(pn);
+     subInfo = config_gesture(pn);
 %     
-     preprocessing1(pn, Fs, subInfo);
+    preprocessing1(pn, Fs, subInfo);
     %%
-    % SEEG 信号预处理.
-    % 滤波, 重参考, trigger 对齐为切片做准备.
+    % SEEG 信号预处理， 滤波, 重参考, 
+    % 获得EMG 对应的trigger 对齐为切片做准备.
     
-     %preprocessing2(pn, 1000);
+     preprocessing2(pn, 1000);
     %%
     % preprocess for DeepConvNet.
 %     preprocessing3(pn, 1000);

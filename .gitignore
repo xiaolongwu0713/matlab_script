@@ -1,5 +1,9 @@
+plot_demo/
+fingerflex/
 GoogleAutoML/
+#ruijin/
 #codeLGY/
+eeglab
 eeglab2020_0/
 eeglab2020_0.bak/
 force.bak/
@@ -8,7 +12,12 @@ spm12/
 tmp/
 DICOM/
 codeLGY/
-
+codeLSJ/
+force/
+#wangmeng/Master Thesis/
+#wangmeng/MatLabCustToolbox/
+#wangmeng/standard brain/
+wangmeng/
 # neural data
 *.dcm
 *.img
@@ -21,8 +30,11 @@ codeLGY/
 *.pth
 *.npy
 *.mat
+*.jpg
+*.PNG
 *.png
 *.pdf
+*.fig
 .idea/
 data/
 figs/

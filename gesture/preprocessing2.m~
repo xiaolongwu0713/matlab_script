@@ -6,19 +6,17 @@ Fs = fs;
 
 sessionNum = 2;
 %address=strcat('/Users/long/Documents/data/gesture/preprocessing/P',num2str(pn));
-address=strcat(processing_dir,'P',num2str(pn),'/');
+address=strcat('/Volumes/Samsung_T5/data/gesture/preprocessing/P',num2str(pn));
 
-strname=strcat(address,'preprocessing1.mat');
+strname=strcat(address,'/preprocessing1.mat');
 load(strname,'Datacell','good_channels');
 
 for i=1:sessionNum
         fprintf('\n session %d', i);
 %% filter the BCI signal.
     Data = Datacell{i};  % 184= chn + emg1 +emg2 + emgdiff +label
-    feaLabel = Data(:,end);
     EMG=Data(:,end-3:end-2);
     BCIdata = Data(:, 1:end-4);
-    
     AllchannelNum = size(BCIdata,2);
     
     figure (1);clf;
@@ -31,6 +29,7 @@ for i=1:sessionNum
     title('filtered signal');
 %% alignment of feature_lable and EMG.
     EMGdiff = Data(:,end-1); % emg diff data
+    feaLabel = Data(:,end);
     EMGdiff_smooth=smooth(abs(EMGdiff),0.025*Fs);
     
     EMG_trigger=zeros(size(Data,1),1);
@@ -60,7 +59,7 @@ for i=1:sessionNum
 %% rereference.
     BCIdata_referenced=cAr_EEG_Local(BCIdata,good_channels,pn);                
       
-    Data=[BCIdata_referenced(:,good_channels),EMG,feaLabel, EMG_trigger];% (eegdata,2*EMG, 1*fealabel,1*EMG_trigger)
+    Data=[BCIdata_referenced(:,good_channels), emg,EMGdata,feaLabel, EMG_trigger];
     %Data=[EMG,EMGdiff,feaLabel, EMG_trigger];
     Datacell{i}=Data;          
 end

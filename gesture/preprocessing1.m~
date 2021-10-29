@@ -14,7 +14,8 @@ SubInfo.TrigChn = subInfo.TrigChn;
 sessionNum = 2;
 %/Volumes/Samsung_T5/data/gesture/LSJ
 %address=strcat('/Users/long/Documents/data/gesture/preprocessing/P',num2str(pn));
-address=strcat(processing_dir,'P',num2str(pn));
+address=strcat('/Volumes/Samsung_T5/data/gesture/preprocessing/P',num2str(pn));
+raw_dir='/Volumes/Samsung_T5/data/gesture/raw';
 if ~exist(address,'dir')
     mkdir(address);
 end
@@ -75,7 +76,7 @@ for i=1:sessionNum
     
     figure(3);clf;
     Data = Data(:, SubInfo.UseChn);
-    Data = [Data, EMG,EMGDIF, feaLabel]; % include EMG data:(eegdata,emgx2channel,emgdiffx1channel,featurelabel)
+    Data = [Data, EMG,EMGDIF, feaLabel]; % include EMG data
     good_channels = remove_bad_channels(Data(:, 1:end-4), Fs, 10);
     
     goodChns{i} = good_channels;
