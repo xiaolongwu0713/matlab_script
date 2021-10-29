@@ -25,8 +25,10 @@ wangmeng/
 *.npy
 *.mat
 *.jpg
+*.PNG
 *.png
 *.pdf
+*.fig
 .idea/
 data/
 figs/
