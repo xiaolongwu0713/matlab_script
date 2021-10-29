@@ -1,5 +1,6 @@
 function [Data]=cAr_EEG_Local(data,AC,pn)
-pathname=strcat('/Volumes/Samsung_T5/data/gesture/EleCTX_Files/P',num2str(pn),'/');
+global electrode_dir
+pathname=strcat(electrode_dir,'P',num2str(pn),'/');
 load([pathname,'electrode_raw.mat']);
 load([pathname,'SignalChanel_Electrode_Registration.mat']);
 Data=data;

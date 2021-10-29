@@ -1,11 +1,13 @@
 %%
-global raw_dir processing_dir;
+global raw_dir processing_dir electrode_dir;
 [ret, name] = system('hostname');
 if strcmp(strip(name),'longsMac')
     raw_dir='/Volumes/Samsung_T5/data/gesture/Raw_Data_All/';
+    electrode_dir='/Volumes/Samsung_T5/data/gesture/EleCTX_Files/';
     processing_dir='/Volumes/Samsung_T5/data/gesture/preprocessing/';
 elseif strcmp(strip(name),'workstation')
     raw_dir='H:/Long/data/gesture/Raw_Data_All/';
+    electrode_dir='H:/Long/data/gesture/EleCTX_Files/';
     processing_dir='H:/Long/data/gesture/Raw_Data_All/preprocessing/';
 end
 
