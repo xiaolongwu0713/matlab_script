@@ -1,6 +1,7 @@
 function [Datacell, channelNum] = preprocessing2(subj, fs)
 %%
-    fprintf('\n subj %d: preprocessing2....', subj);
+fprintf('\n subj %d: preprocessing2....', subj);
+global processing_dir;
 pn = subj;
 Fs = fs;
 
