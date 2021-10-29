@@ -6,9 +6,9 @@ Fs = fs;
 
 sessionNum = 2;
 %address=strcat('/Users/long/Documents/data/gesture/preprocessing/P',num2str(pn));
-address=strcat('/Volumes/Samsung_T5/data/gesture/preprocessing/P',num2str(pn));
+address=strcat(processing_dir,'P',num2str(pn),'/');
 
-strname=strcat(address,'/preprocessing1.mat');
+strname=strcat(address,'preprocessing1.mat');
 load(strname,'Datacell','good_channels');
 
 for i=1:sessionNum

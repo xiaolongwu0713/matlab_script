@@ -14,8 +14,7 @@ SubInfo.TrigChn = subInfo.TrigChn;
 sessionNum = 2;
 %/Volumes/Samsung_T5/data/gesture/LSJ
 %address=strcat('/Users/long/Documents/data/gesture/preprocessing/P',num2str(pn));
-address=strcat('/Volumes/Samsung_T5/data/gesture/preprocessing/P',num2str(pn));
-raw_dir='/Volumes/Samsung_T5/data/gesture/raw';
+address=strcat(processing_dir,'P',num2str(pn));
 if ~exist(address,'dir')
     mkdir(address);
 end

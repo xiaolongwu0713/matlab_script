@@ -1,3 +1,14 @@
+%%
+global raw_dir processing_dir;
+[ret, name] = system('hostname');
+if strcmp(strip(name),'longsMac')
+    raw_dir='/Volumes/Samsung_T5/data/gesture/Raw_Data_All/';
+    processing_dir='/Volumes/Samsung_T5/data/gesture/preprocessing/';
+elseif strcmp(strip(name),'workstation')
+    raw_dir='H:/Long/Raw_Data_All/';
+    processing_dir='H:/Long/Raw_Data_All/preprocessing/';
+end
+
 %% process all together
 %  process pipline.
 Inf = [2, 1000; 3, 1000; 4, 1000; 5, 1000; 7, 1000; 8, 1000; 9, 1000; 10, 2000; % 11, 500; 12, 500;
