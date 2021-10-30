@@ -40,7 +40,7 @@ for i = 1 : size(Inf, 1)
     % Ãﬁ≥˝‘Î…˘Õ®µ¿.
      subInfo = config_gesture(pn);
 end
-%mat2np(Inf, strcat(processing_dir,'Info.npy'), 'int16')
+mat2np(Inf, strcat(processing_dir,'Info.npy'), 'int16')
 writematrix(Inf,strcat(processing_dir,'Info.txt'))
 %%
 for i = 1 : size(Inf, 1)
