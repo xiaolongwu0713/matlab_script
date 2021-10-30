@@ -1,6 +1,7 @@
 function [SubInfo] = config_gesture(subj)
 
 switch subj
+
     case 2
         SubInfo.Session_num=[1:2];
         SubInfo.UseChn=[1:19,21:37,43:44,47:129];
@@ -116,8 +117,7 @@ switch subj
         SubInfo.UseChn=[1:17,19:33,43:163]; % L6 is missing for P26
         SubInfo.EmgChn=[164:165];
         SubInfo.TrigChn=[35:39];
-    case 28
-        error(' Information Loss !')
+
     case 29
         SubInfo.Session_num=[1,2];
         SubInfo.UseChn=[1:15,17:29,38:119];
@@ -138,8 +138,7 @@ switch subj
         SubInfo.UseChn=[1:19,21:37,46:47,50:67];
         SubInfo.EmgChn=[68:69];
         SubInfo.TrigChn=[38:42];
-    case 33
-        error(' Information Loss !')
+
     case 34
         SubInfo.Session_num=[1,2];
         SubInfo.UseChn=[1:15,17:31,43:114];
@@ -160,11 +159,15 @@ switch subj
         SubInfo.UseChn=[1:15,17:23,32:73];
         SubInfo.EmgChn=[74:75];
         SubInfo.TrigChn=[24:28];
+
+        
     case 41
         SubInfo.Session_num=[1,2];
         SubInfo.UseChn=[1:19,21:37,54:207];
         SubInfo.EmgChn=[210:211];
         SubInfo.TrigChn=[46:50];
+    otherwise
+        error(strcat("No subject Infor found for sid:",str(subj),'.'))
 
 end
 

@@ -30,7 +30,7 @@ goodSubj = [1,2,3,8,9,12,16,18,21,22,26];
 goodSubj = [1:length(Inf)];
 Inf = Inf(goodSubj,:);
 
-%% check all subject info existance
+%% check info existance
 for i = 1 : size(Inf, 1)
     pn = Inf(i, 1);
     Fs = Inf(i, 2);
@@ -51,12 +51,12 @@ for i = 1 : size(Inf, 1)
      subInfo = config_gesture(pn);
 %     
     preprocessing1(pn, Fs, subInfo);
-    
+    %%
     % SEEG 信号预处理， 滤波, 重参考, 
     % 获得EMG 对应的trigger 对齐为切片做准备.
     
      preprocessing2(pn, 1000);
-    
+    %%
     % preprocess for DeepConvNet.
 %     preprocessing3(pn, 1000);
     
