@@ -68,7 +68,7 @@ end
 
 channelNum = length(good_channels); 
 %% save data file.
-strname = strcat(address,'/preprocessing2_emg.mat');
+strname = strcat(address,'/preprocessing2.mat');
 save(strname, 'Datacell','channelNum','-v7.3');
 
 
