@@ -72,12 +72,12 @@ pac_eegbook1;
 %a=EEG.etc.eegpac.mvlmi{1}.pacval;
 %[a,b,c,d,e]=EEG.etc.eegpac.mvlmi;
 
-% imagesc(squeeze(a(1,:,:)));%选取一个phase的frequency画图。
-% ax = gca;
-% ax.YDir = 'normal';
-% 
-% load('/Users/long/Documents/BCI/matlab_scripts/common/MyColormaps.mat','mycmap')
-% colormap(ax,jet)
-% caxis([-4,4]);
-% colorbar;
-% xlabel('Time/s');ylabel('FrequEncy/Hz');
+imagesc(result.c2_2_10);%选取一个phase的frequency画图。
+ax = gca;
+ax.YDir = 'normal';
+
+load('/Users/long/Documents/BCI/matlab_scripts/common/MyColormaps.mat','mycmap')
+colormap(ax,jet)
+caxis([-4,4]);
+colorbar;
+xlabel('Time/s');ylabel('FrequEncy/Hz');
