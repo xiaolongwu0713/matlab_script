@@ -15,8 +15,8 @@ load(strname,'Datacell','good_channels');
 for i=1:sessionNum
         fprintf('\n session %d', i);
 %% filter the BCI signal.
-    Data = Datacell{i};  % 184= chn + emg1 +emg2 + emgdiff +label
-    feaLabel = Data(:,end);
+    Data = Datacell{i};  % 184= chn + emg1 +emg2 + emgdiff + trigger_label
+    trigger_indexes = Data(:,end);
     EMG=Data(:,end-3:end-2);
     BCIdata = Data(:, 1:end-4);
     
@@ -35,7 +35,7 @@ for i=1:sessionNum
     EMGdiff_smooth=smooth(abs(EMGdiff),0.025*Fs);
     
     EMG_trigger=zeros(size(Data,1),1);
-    trigger=find(feaLabel~=0); % search for the trigger position and label
+    trigger=find(trigger_indexes~=0); % search for the trigger position and label
     
     for trial=1:length(trigger)  % the segment number (i th)
         EMG_segment=EMGdiff(trigger(trial):trigger(trial)+5*Fs); % 5s-long EMG data segment after the trigger signal
@@ -50,9 +50,9 @@ for i=1:sessionNum
         for t=trigger(trial)+0.25*Fs:(trigger(trial)+4.5*Fs) % 0.25s-4.5s in the segment
             if EMGdiff_smooth(t)>=1.5*meanval  % use the first EMG peak in this segment as the mark
                 if t>robustIndex
-                        EMG_trigger(robustIndex)=feaLabel(trigger(trial));
+                        EMG_trigger(robustIndex)=trigger_indexes(trigger(trial));
                 else
-                        EMG_trigger(t)=feaLabel(trigger(trial));
+                        EMG_trigger(t)=trigger_indexes(trigger(trial));
                 end             
                 break;
             end
@@ -61,8 +61,8 @@ for i=1:sessionNum
 %% rereference.
     BCIdata_referenced=cAr_EEG_Local(BCIdata,good_channels,pn);                
       
-    Data=[BCIdata_referenced(:,good_channels),EMG,feaLabel, EMG_trigger];% (eegdata,2*EMG, 1*fealabel,1*EMG_trigger)
-    %Data=[EMG,EMGdiff,feaLabel, EMG_trigger];
+    Data=[BCIdata_referenced(:,good_channels),EMG,trigger_indexes, EMG_trigger];% (eegdata,2*EMG, 1*fealabel,1*EMG_trigger)
+    %Data=[EMG,EMGdiff,trigger_indexes, EMG_trigger];
     Datacell{i}=Data;          
 end
 
