@@ -31,8 +31,9 @@ for c1 = channel1 % phase low frequency
   
     for c2 = c1 % same channel coupling
         pacz = zeros(size(freq4phase,2),size(freq4power,2));
+        i=1;
         for phasef = freq4phase
-            i=1;
+            
             % convert cfc times to indices
             % 1000/freq4phase means signal zhouqi(period T) in ms
             % cfc_numcycles*(1000/freq4phase): means time length in ms for cfc_numcycles periods.
@@ -41,9 +42,9 @@ for c1 = channel1 % phase low frequency
             
     
             freq4power_num=length(freq4power);
-            
+            j=1;
             for powerf =freq4power
-                j=1;
+                
                 fft_EEG1= fft(reshape(EEG.data(c1,:,:),1,EEG.pnts*EEG.trials),n_convolution);
                 fft_EEG2= fft(reshape(EEG.data(c2,:,:),1,EEG.pnts*EEG.trials),n_convolution);
 
