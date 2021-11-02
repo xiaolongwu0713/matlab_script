@@ -81,10 +81,13 @@ for i =1:length(fieldnames(result))
     ax.YDir = 'normal';
     pause(1)
 end
-image(result.(chnn))
-
+chn=47
+chnn=strcat('c',num2str(chn),'_',num2str(chn),'_','10');
+image(result.(chnn));
+caxis([10,20])
+ax=gca()
 load('/Users/long/Documents/BCI/matlab_scripts/common/MyColormaps.mat','mycmap')
 colormap(ax,jet)
-caxis([-4,4]);
+caxis([0,4]);
 colorbar;
 xlabel('Time/s');ylabel('FrequEncy/Hz');
