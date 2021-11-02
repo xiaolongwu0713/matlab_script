@@ -6,12 +6,12 @@ if strcmp(strip(computer),'longsMac')
     eeglab_path='/Users/long/Documents/BCI/matlab_plugin/eeglab2021.1';
     addpath(eeglab_path);
 elseif strcmp(strip(computer),'workstation')
-    data_dir='H:/Long/data/ruijin/gonogo/';
-    eeglab_path=['C:/Users/wuxiaolong/Desktop/BCI/eeglab2021.1'];
+    data_dir='H:\Long\data\ruijin/gonogo/';
+    eeglab_path=['C:\Users\wuxiaolong\Desktop\BCI\eeglab2021.1'];
     addpath(eeglab_path);
 end
 
-file=strcat(data_dir,'preprocessing/P',num2str(pn),'/preprocessing/preprocessingv2.mat');
+file=strcat(data_dir,'/preprocessing/P',num2str(pn),'/preprocessing/preprocessingv2.mat');
 
 load(file);
 
