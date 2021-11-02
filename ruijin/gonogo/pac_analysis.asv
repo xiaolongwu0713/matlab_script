@@ -6,12 +6,12 @@ if strcmp(strip(computer),'longsMac')
     eeglab_path='/Users/long/Documents/BCI/matlab_plugin/eeglab2021.1';
     addpath(eeglab_path);
 elseif strcmp(strip(computer),'workstation')
-    data_dir='H:/Long/data/ruijin/gonogo/';
-    eeglab_path=['C:/Users/wuxiaolong/Desktop/BCI/eeglab2021.1'];
+    data_dir='H:\Long\data\ruijin/gonogo/';
+    eeglab_path=['C:\Users\wuxiaolong\Desktop\BCI\eeglab2021.1'];
     addpath(eeglab_path);
 end
 
-file=strcat(data_dir,'preprocessing/P',num2str(pn),'/preprocessing/preprocessingv2.mat');
+file=strcat(data_dir,'/preprocessing/P',num2str(pn),'/preprocessing/preprocessingv2.mat');
 
 load(file);
 
@@ -85,13 +85,10 @@ for i =1:length(fieldnames(result))
     ax.YDir = 'normal';
     pause(1)
 end
-chn=47
-chnn=strcat('c',num2str(chn),'_',num2str(chn),'_','10');
-image(result.(chnn));
-caxis([10,20])
-ax=gca()
+image(result.(chnn))
+
 load('/Users/long/Documents/BCI/matlab_scripts/common/MyColormaps.mat','mycmap')
 colormap(ax,jet)
-caxis([0,4]);
+caxis([-4,4]);
 colorbar;
 xlabel('Time/s');ylabel('FrequEncy/Hz');

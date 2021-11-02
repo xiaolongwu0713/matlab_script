@@ -3,12 +3,12 @@
 % x-axis: low frequencies of phase
 % y-axis: high frequencies of power
 %% Figure 30.7
-channel1=1:63;
-channel2=channel1;
+channel1=46:47;
+channel2=chan;
 %channel2plot = '1';
 
 %times2plot = -500:100:3500;
-freq4phase = 2:1:15; % Hz
+freq4phase = 2:1:10; % Hz
 freq4power = 20:2:150; 
 
 %cfc_numcycles  = 3;   % number of cycles at phase-frequency
@@ -96,7 +96,7 @@ for c1 = channel1 % phase low frequency
             
             i=i+1;
         end
-        comb=strcat('c',num2str(c1),'_',num2str(c2));
+        comb=strcat('c',num2str(c1),'_',num2str(c2),'_',num2str(phasef));
         result.(comb)=pacz;
     end
 end
