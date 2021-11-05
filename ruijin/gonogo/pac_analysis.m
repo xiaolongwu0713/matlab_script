@@ -49,6 +49,7 @@ eeglab redraw;
 %%
 % call pac analysis program on event 22
 [ALLEEG EEG CURRENTSET] = pop_newset(ALLEEG, EEG, 5,'retrieve',4,'study',0); % working on epoch21
+eeglab redraw;
 pac_eegbook1;
 %pac_eegbook2;
 %%
