@@ -24,9 +24,8 @@ Inf = [2, 1000; 3, 1000; 4, 1000; 5, 1000; 7, 1000; 8, 1000; 9, 1000; 10, 2000; 
        35, 1000; % 36,37,38,39,40    
 	   41,2000;
        ];
-goodSubj = [2];
 %goodSubj = [2,3,8,9,12,16,18,21,22,26];
-%goodSubj = [8,];
+goodSubj = [8,];
 Inf = Inf(goodSubj,:);
 
 %% check all subject info existance

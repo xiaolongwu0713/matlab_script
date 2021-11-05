@@ -2,7 +2,7 @@
 [a,computer]=system('hostname');
 pn = 5;
 if strcmp(strip(computer),'longsMac')
-    data_dir='/Volumes/Samsung_T5/data/ruijin/gonogo';
+    data_dir='/Volumes/Samsung_T5/data/ruijin/gonogo/';
     eeglab_path='/Users/long/Documents/BCI/matlab_plugin/eeglab2021.1';
     addpath(eeglab_path);
 elseif strcmp(strip(computer),'workstation')
@@ -48,6 +48,7 @@ eeglab redraw;
 
 %%
 % call pac analysis program on event 22
+[ALLEEG EEG CURRENTSET] = pop_newset(ALLEEG, EEG, 5,'retrieve',4,'study',0); % working on epoch21
 pac_eegbook1;
 %pac_eegbook2;
 
