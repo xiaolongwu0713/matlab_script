@@ -2,7 +2,7 @@
 [a,computer]=system('hostname');
 pn = 6;
 if strcmp(strip(computer),'longsMac')
-    data_dir='/Volumes/Samsung_T5/data/ruijin/gonogo';
+    data_dir='/Volumes/Samsung_T5/data/ruijin/gonogo/';
     eeglab_path='/Users/long/Documents/BCI/matlab_plugin/eeglab2021.1';
     addpath(eeglab_path);
 elseif strcmp(strip(computer),'workstation')
@@ -48,6 +48,7 @@ eeglab redraw;
 
 %%
 % call pac analysis program on event 22
+[ALLEEG EEG CURRENTSET] = pop_newset(ALLEEG, EEG, 5,'retrieve',4,'study',0); % working on epoch21
 pac_eegbook1;
 %pac_eegbook2;
 
@@ -85,10 +86,13 @@ for i =1:length(fieldnames(result))
     ax.YDir = 'normal';
     pause(1)
 end
-image(result.(chnn))
-
+chn=47
+chnn=strcat('c',num2str(chn),'_',num2str(chn),'_','10');
+image(result.(chnn));
+caxis([10,20])
+ax=gca()
 load('/Users/long/Documents/BCI/matlab_scripts/common/MyColormaps.mat','mycmap')
 colormap(ax,jet)
-caxis([-4,4]);
+caxis([0,4]);
 colorbar;
 xlabel('Time/s');ylabel('FrequEncy/Hz');
