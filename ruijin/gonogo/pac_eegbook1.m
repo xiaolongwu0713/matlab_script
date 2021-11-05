@@ -3,7 +3,7 @@
 % x-axis: low frequencies of phase
 % y-axis: high frequencies of power
 %% Figure 30.7
-channel1=1:57;
+channel1=1:63;
 channel2=channel1;
 %channel2plot = '1';
 
