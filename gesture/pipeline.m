@@ -5,6 +5,7 @@ if strcmp(strip(name),'longsMac')
     raw_dir='/Volumes/Samsung_T5/data/gesture/Raw_Data_All/';
     electrode_dir='/Volumes/Samsung_T5/data/gesture/EleCTX_Files/';
     processing_dir='/Volumes/Samsung_T5/data/gesture/preprocessing/';
+    info_dir='/Users/long/Documents/data/gesture/info/';
 elseif strcmp(strip(name),'workstation')
     raw_dir='H:/Long/data/gesture/Raw_Data_All/';
     electrode_dir='H:/Long/data/gesture/EleCTX_Files/';
@@ -13,12 +14,12 @@ end
 
 %% process all together
 %  process pipline.
-Inf = [2, 1000; 3, 1000; 4, 1000; 5, 1000; 7, 1000; 8, 1000; 9, 1000; 10, 2000; % 11, 500; 12, 500;
+inf = [2, 1000; 3, 1000; 4, 1000; 5, 1000; 7, 1000; 8, 1000; 9, 1000; 10, 2000; % 11, 500; 12, 500;
        13, 2000;  16, 2000; 17, 2000; 18, 2000; 19, 2000; 20, 1000; 21, 1000; 22, 2000; 23, 2000; % 14, 2000;
        29, 2000; 30, 2000; 31, 2000; 32, 2000; 34, 2000; 35, 1000; % 28, 2000; 33,    24, 2000; 25, 2000; 26, 2000; 
        36, 2000; 37, 2000; 41,2000;
        ];
-Inf = [2, 1000; 3, 1000; 4, 1000; 5, 1000; 7, 1000; 8, 1000; 9, 1000; 10, 2000;  11, 500; 12, 500;%1,xxx;6,;
+inf = [2, 1000; 3, 1000; 4, 1000; 5, 1000; 7, 1000; 8, 1000; 9, 1000; 10, 2000;  11, 500; 12, 500;%1,xxx;6,;
        13, 2000; 14, 2000; 16, 2000; 17, 2000; 18, 2000; 19, 2000; 20, 1000; 21, 1000; 22, 2000; %15,
 	   23, 2000; 24, 2000; 25, 2000; 26, 2000; 29, 2000; 30, 2000; 31, 2000; 32, 2000; 34, 2000;%27,28,33,
        35, 1000; % 36,37,38,39,40    
@@ -26,8 +27,9 @@ Inf = [2, 1000; 3, 1000; 4, 1000; 5, 1000; 7, 1000; 8, 1000; 9, 1000; 10, 2000; 
        ];
 goodSubj = [1,2,3,8,9,12,16,18,21,22,26];
 %goodSubj = [2,3,8,9,12,16,18,21,22,26];
-goodSubj = [8,]; % sid=10
-%goodSubj = [1:length(Inf)];
+
+%goodSubj = [8,]; % sid=10
+goodSubj = [1:length(Inf)];
 Inf = Inf(goodSubj,:);
 
 %% check all subject info existance
@@ -40,8 +42,8 @@ for i = 1 : size(Inf, 1)
     % Ãﬁ≥˝‘Î…˘Õ®µ¿.
      subInfo = config_gesture(pn);
 end
-mat2np(Inf, strcat(processing_dir,'Info.npy'), 'int16')
-writematrix(Inf,strcat(processing_dir,'Info.txt'))
+mat2np(Inf, strcat(info_dir,'info.npy'), 'int16')
+writematrix(Inf,strcat(info_dir,'info.txt'))
 %%
 for i = 1 : size(Inf, 1)
     pn = Inf(i, 1);

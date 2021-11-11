@@ -26,25 +26,14 @@ Inf = [2, 1000; 3, 1000; 4, 1000; 5, 1000; 7, 1000; 8, 1000; 9, 1000; 10, 2000; 
        ];
  Inf=[36,2000; 37,2000;38,2000;39,2000];
 %goodSubj = [2,3,8,9,12,16,18,21,22,26];
-goodSubj = [1,];
+goodSubj = [8,]; % sid=10
 Inf = Inf(goodSubj,:);
 
-%% check all subject info existance
-for i = 1 : size(Inf, 1)
-    pn = Inf(i, 1);
-    Fs = Inf(i, 2);
-    
-    % 合并 trigger 向量.
-    % EMG 信号的预处理.
-    % 剔除噪声通道.
-     subInfo = config_gesture(pn);
-end
-mat2np(Inf, strcat(processing_dir,'Info.npy'), 'int16')
-writematrix(Inf,strcat(processing_dir,'Info.txt'))
+
 %%
-for i = 1 : size(Inf, 1)
-    pn = Inf(i, 1);
-    Fs = Inf(i, 2);
+
+    pn = 10;
+    Fs = 2000;
     
     % 合并 trigger 向量.
     % EMG 信号的预处理.
@@ -64,7 +53,6 @@ for i = 1 : size(Inf, 1)
 %     pre_3_psd_v2(pn, 1000)
     
     %pre_3_psd_v3(pn)
-end
 
 
 
