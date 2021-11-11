@@ -48,13 +48,13 @@ eeglab redraw;
 
 %%
 % call pac analysis program on event 11
-[ALLEEG EEG CURRENTSET] = pop_newset(ALLEEG, EEG, 3,'retrieve',2,'study',0); % working on epoch11
-eeglab redraw;
+%[ALLEEG EEG CURRENTSET] = pop_newset(ALLEEG, EEG, 3,'retrieve',2,'study',0); % working on epoch11
+%eeglab redraw;
 pac_eegbook1;
-
-% call pac analysis program on event 22
-[ALLEEG EEG CURRENTSET] = pop_newset(ALLEEG, EEG, 2,'retrieve',3,'study',0); % working on epoch11
-eeglab redraw;
+%%
+% call pac analysis program on event 12
+%[ALLEEG EEG CURRENTSET] = pop_newset(ALLEEG, EEG, 2,'retrieve',3,'study',0); % working on epoch11
+%eeglab redraw;
 pac_eegbook1;
 
 %%
