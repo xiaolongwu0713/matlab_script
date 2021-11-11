@@ -1,5 +1,3 @@
-fbcsp=['C:/Users/wuxiaolong/Desktop/BCI/matlab_script/common'];
-addpath(comm_path);
 
 global raw_dir processing_dir electrode_dir;
 [ret, name] = system('hostname');
@@ -8,10 +6,14 @@ if strcmp(strip(name),'longsMac')
     electrode_dir='/Volumes/Samsung_T5/data/gesture/EleCTX_Files/';
     processing_dir='/Volumes/Samsung_T5/data/gesture/preprocessing/';
     info_dir='/Users/long/Documents/data/gesture/info/';
+    fbcsp=['C:/Users/wuxiaolong/Desktop/BCI/matlab_script/common'];
+    addpath(fbcsp);
 elseif strcmp(strip(name),'workstation')
     raw_dir='H:/Long/data/gesture/Raw_Data_All/';
     electrode_dir='H:/Long/data/gesture/EleCTX_Files/';
     processing_dir='H:/Long/data/gesture/preprocessing/';
+    fbcsp=['C:\Users\wuxiaolong\Desktop\BCI\matlab_script\motorImageryClassification\FBCSP'];
+    addpath(fbcsp);
 end
 
 clear;
@@ -55,15 +57,6 @@ classesAll = predAll;
 OVO = getOVO(nClasses);
 
 
-%%%%%%%%%%%%%INITIALIZE RES%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-dataAll = zeros(nPersons,nClassifiers);
-%%%%%%%%%%%%%%%%MAKE FILTERS%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
-
-bandFilters = initializeFilter(nBands,freqInterval,order,fs,type);
-
-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%MAIN LOOP%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -80,9 +73,10 @@ Inf = [2, 1000; 3, 1000; 4, 1000; 5, 1000; 7, 1000; 8, 1000; 9, 1000; 10, 2000; 
        41,2000;%36, 2000; 37, 2000; 
        ];
 
-goodSubj = [1,2,3,8,9,12,16,18,21,22,26];
-Inf = Inf(goodSubj,:);
+%goodSubj = [1,2,3,8,9,12,16,18,21,22,26];
+%Inf = Inf(goodSubj,:);
 nPersons = size(Inf,1);
+
 for personNumber = 1:nPersons
     
     pn = Inf(personNumber, 1);
