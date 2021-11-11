@@ -61,7 +61,7 @@ dataAll = zeros(nPersons,nClassifiers);
 
 
 
-bandFilters = initializeFilter(nBands,1,200,order,fs,type);
+bandFilters = initializeFilter(nBands,4,200,order,fs,type);
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
