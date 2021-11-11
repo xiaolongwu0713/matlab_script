@@ -63,7 +63,7 @@ dataAll = zeros(nPersons,nClassifiers);
 
 bandFilters = initializeFilter(nBands,freqInterval,order,fs,type);
 
-
+% not sync
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%MAIN LOOP%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
