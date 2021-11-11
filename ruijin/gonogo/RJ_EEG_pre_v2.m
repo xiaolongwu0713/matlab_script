@@ -1,25 +1,21 @@
 function RJ_EEG_pre_v2(subj, sessionNum)
 %% load and select the raw data.
+global data_dir;
 pn = subj;
 
     fprintf('\n subj %d: RJ_EEG_pre_v2', pn);
-address=strcat('/Volumes/Samsung_T5/data/ruijin/gonogo/preprocessing/P',num2str(pn));
-if ~exist(address,'dir')
-    mkdir(address);
+result=strcat(data_dir,'/preprocessing/P',num2str(pn),'/');
+if ~exist(result,'dir')
+    mkdir(result);
 end
 %cd(address);
-
-Folder=strcat(address,'/preprocessing');
-if ~exist(Folder,'dir')
-    mkdir(Folder);
-end
 
 
 for session = 1:sessionNum
     
-    strname=strcat('/Volumes/Samsung_T5/data/ruijin/gonogo/raw/P',num2str(pn),'/H',num2str(session),'.mat');
+    strname=strcat(data_dir,'raw/P',num2str(pn),'/H',num2str(session),'.mat');
     load(strname, 'EEG');
-    strname=strcat('/Volumes/Samsung_T5/data/ruijin/gonogo/raw/P',num2str(pn),'/inf',num2str(session),'.mat');
+    strname=strcat(data_dir,'raw/P',num2str(pn),'/inf',num2str(session),'.mat');
     load(strname, 'accuracy', 'rtime');
     
     Fs = EEG.srate;
@@ -136,7 +132,7 @@ for session = 1:sessionNum
     DATA{session} = data;
 end
 %%
-strname = strcat(address,'/preprocessing/preprocessingv2.mat');
+strname = strcat(result,'preprocessingv2.mat');
 save(strname,'DATA','Trigger','Fs', 'ReactionTime', 'GoodChns','BadTrial','WarningTrial', '-v7.3');
 
 end
