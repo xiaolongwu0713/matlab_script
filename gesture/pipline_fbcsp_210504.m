@@ -1,3 +1,6 @@
+clear all;
+clc;
+
 
 global raw_dir processing_dir electrode_dir;
 [ret, name] = system('hostname');
@@ -16,11 +19,6 @@ elseif strcmp(strip(name),'workstation')
     addpath(fbcsp);
 end
 
-clear;
-clc;
-close all;
-
-
 %if there is a run time error - add breakpoint
 dbstop if error
 
@@ -38,7 +36,7 @@ dbstop if error
 % with artifact removal
 % without channel extension!
 
-
+nPersons=30
 nClasses = 5;
 nClassifiers = 3;
 %2*m = number of filters, 2*mm = max number of filters
@@ -63,7 +61,7 @@ dataAll = zeros(nPersons,nClassifiers);
 
 
 
-bandFilters = initializeFilter(nBands,freqInterval,order,fs,type);
+bandFilters = initializeFilter(nBands,1,200,order,fs,type);
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
