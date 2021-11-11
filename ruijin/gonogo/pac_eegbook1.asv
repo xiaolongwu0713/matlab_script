@@ -31,7 +31,6 @@ for c1 = channel1 % phase low frequency
   
     for c2 = c1 % same channel coupling
         pacz = zeros(size(freq4phase,2),size(freq4power,2));
-        pac_sig= zeros(size(freq4phase,2),size(freq4power,2));
         i=1;
         for phasef = freq4phase
             
@@ -91,7 +90,7 @@ for c1 = channel1 % phase low frequency
                 end
 
                 pacz(i,j) = (obsPAC-mean(permutedPAC))/std(permutedPAC);
-                pac_sig(i,j) = normcdf(-abs((obsPAC - mean(permutedPAC)) / std(permutedPAC)), 0, 1) .* 2;
+                pac_base_sig(j,k,i,kk) = normcdf(-abs((obsPAC_base - mean(permutedPAC_base)) / std(permutedPAC_base)), 0, 1) .* 2;
                 %end
                 j=j+1;
             end

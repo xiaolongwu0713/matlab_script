@@ -33,26 +33,30 @@ EEG = eeg_checkset( EEG );
 %eeglab redraw;
 
 % dataset 2: epoch11
-EEG = pop_epoch( ALLEEG(1), {  '11'  }, [-7  4], 'newname', 'epoch11', 'epochinfo', 'yes');
+EEG = pop_epoch( ALLEEG(1), {  '11'  }, [0  3], 'newname', 'epoch11', 'epochinfo', 'yes');
 [ALLEEG EEG CURRENTSET] = pop_newset(ALLEEG, EEG, CURRENTSET,'gui','off');
 % dataset 3
-EEG = pop_epoch( ALLEEG(1), {  '12'  }, [-7  4], 'newname', 'epoch12', 'epochinfo', 'yes');
+EEG = pop_epoch( ALLEEG(1), {  '12'  }, [0  3], 'newname', 'epoch12', 'epochinfo', 'yes');
 [ALLEEG EEG CURRENTSET] = pop_newset(ALLEEG, EEG, CURRENTSET,'gui','off');
 % dataset 4
-EEG = pop_epoch( ALLEEG(1), {  '21'  }, [-1  4], 'newname', 'epoch21', 'epochinfo', 'yes');
-[ALLEEG EEG CURRENTSET] = pop_newset(ALLEEG, EEG, CURRENTSET,'gui','off');
+%EEG = pop_epoch( ALLEEG(1), {  '21'  }, [-1  4], 'newname', 'epoch21', 'epochinfo', 'yes');
+%[ALLEEG EEG CURRENTSET] = pop_newset(ALLEEG, EEG, CURRENTSET,'gui','off');
 % dataset 5
-EEG = pop_epoch( ALLEEG(1), {  '22'  }, [-1  4], 'newname', 'epoch22', 'epochinfo', 'yes');
-[ALLEEG EEG CURRENTSET] = pop_newset(ALLEEG, EEG, CURRENTSET,'gui','off');
+%EEG = pop_epoch( ALLEEG(1), {  '22'  }, [-1  4], 'newname', 'epoch22', 'epochinfo', 'yes');
+%[ALLEEG EEG CURRENTSET] = pop_newset(ALLEEG, EEG, CURRENTSET,'gui','off');
 eeglab redraw;
 
 %%
-% call pac analysis program on event 22
-[ALLEEG EEG CURRENTSET] = pop_newset(ALLEEG, EEG, 5,'retrieve',4,'study',0); % working on epoch21
+% call pac analysis program on event 11
+[ALLEEG EEG CURRENTSET] = pop_newset(ALLEEG, EEG, 3,'retrieve',2,'study',0); % working on epoch11
 eeglab redraw;
-%%
 pac_eegbook1;
-%pac_eegbook2;
+
+% call pac analysis program on event 22
+[ALLEEG EEG CURRENTSET] = pop_newset(ALLEEG, EEG, 2,'retrieve',3,'study',0); % working on epoch11
+eeglab redraw;
+pac_eegbook1;
+
 %%
 % low frequency: 4-15, high frequency: 80-150;
 %EEG = pop_pac(EEG,'Channels',[4 15],[80 150],[1,1,1,1,1],[1,2,3,4,5],'method','mvlmi','nboot',200,'alpha',[],'nfreqs1',4,'nfreqs2',20,'freqscale','log','bonfcorr',0);
