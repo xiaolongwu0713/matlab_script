@@ -1,16 +1,17 @@
 function RJ_EEG_analysis_v4(subj, sessionNum)
 %%
+global data_dir;
 pn=subj;
 
     fprintf('\n subj %d: RJ_EEG_analysis_v4', pn);
     
-Folder=strcat('/Volumes/Samsung_T5/data/ruijin/gonogo/preprocessing/P',num2str(pn));
-if ~exist(strcat(Folder,'/analysis'),'dir')
-    mkdir(Folder);
+result=strcat(data_dir,+'analysis/P',num2str(pn),'/');
+if ~exist(result,'dir')
+    mkdir(result);
 end
 
 
-strname = strcat(Folder,'/preprocessing/preprocessingv2.mat');
+strname = strcat(data_dir,'preprocessing/P',num2str(pn),'/preprocessingv2.mat');
 load(strname, 'DATA', 'Trigger', 'Fs', 'ReactionTime');
 
 tampGap = 0;
@@ -156,7 +157,7 @@ for chn = 1:channelNum
     title(['T-F spectrum of channel-',num2str(chn),' nogo']);
     xlabel('Time/s');ylabel('FrequEncy/Hz');
     
-    filename=strcat(Folder,'/analysis/','2_Class_Chn_',num2str(chn),'_v4.pdf');
+    filename=strcat(result,'2_Class_Chn_',num2str(chn),'_v4.pdf');
     %savefig(filename);
     saveas(gcf,filename);
     clf('reset');
