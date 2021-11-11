@@ -57,6 +57,14 @@ classesAll = predAll;
 OVO = getOVO(nClasses);
 
 
+%%%%%%%%%%%%%INITIALIZE RES%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+dataAll = zeros(nPersons,nClassifiers);
+%%%%%%%%%%%%%%%%MAKE FILTERS%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+bandFilters = initializeFilter(nBands,freqInterval,order,fs,type);
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%MAIN LOOP%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
