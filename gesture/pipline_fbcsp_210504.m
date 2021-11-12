@@ -1,6 +1,3 @@
-clear all;
-clc;
-
 
 global raw_dir processing_dir electrode_dir;
 [ret, name] = system('hostname');
@@ -9,19 +6,23 @@ if strcmp(strip(name),'longsMac')
     electrode_dir='/Volumes/Samsung_T5/data/gesture/EleCTX_Files/';
     processing_dir='/Volumes/Samsung_T5/data/gesture/preprocessing/';
     info_dir='/Users/long/Documents/data/gesture/info/';
-    fbcsp=['C:/Users/wuxiaolong/Desktop/BCI/matlab_script/common'];
-    addpath(fbcsp);
+    common=['/Users/long/Documents/BCI/matlab_scripts/common/'];
+    addpath(common);
+    fbcsp=['/Users/long/Documents/BCI/matlab_scripts/motorImageryClassification'];
+    addpath(genpath(fbcsp));
 elseif strcmp(strip(name),'workstation')
     raw_dir='H:/Long/data/gesture/Raw_Data_All/';
     electrode_dir='H:/Long/data/gesture/EleCTX_Files/';
     processing_dir='H:/Long/data/gesture/preprocessing/';
-    fbcsp=['C:\Users\wuxiaolong\Desktop\BCI\matlab_script\motorImageryClassification\FBCSP'];
-    addpath(fbcsp);
+    common=['C:/Users/wuxiaolong/Desktop/BCI/matlab_scripts/common/'];
+    addpath(common);
+    fbcsp=['C:\Users\wuxiaolong\Desktop\BCI\matlab_scripts\motorImageryClassification'];
+    addpath(genpath(fbcsp));
 end
 
 %if there is a run time error - add breakpoint
-dbstop if error
-
+%dbstop if error
+%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%INITIALIZE CONSTANTS%%%%%%%%%%%%
@@ -83,15 +84,19 @@ Inf = [2, 1000; 3, 1000; 4, 1000; 5, 1000; 7, 1000; 8, 1000; 9, 1000; 10, 2000; 
 %Inf = Inf(goodSubj,:);
 nPersons = size(Inf,1);
 
+%%
+nPersons=1;
+pn=5;
 for personNumber = 1:nPersons
     
-    pn = Inf(personNumber, 1);
+    %pn = Inf(personNumber, 1);
     Fs = 1000;  
     %%%%%%%%%%%
     %LOAD DATA%
     %%%%%%%%%%%
     
-    strname = strcat(processing_dir,'P',num2str(pn),'/preprocessing2.mat');
+    %strname = strcat(processing_dir,'preprocessing_data.test/P',num2str(pn),'/preprocessing2/preprocessingALL_2.mat');
+    strname='/Volumes/Samsung_T5/data/gesture/preprocessing_data.test/P5/preprocessing2/preprocessingALL_2.mat'
     load(strname, 'Datacell');
     
     SEEG = [Datacell{1};Datacell{2}];
@@ -185,6 +190,7 @@ for personNumber = 1:nPersons
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         
         %Training data - spits out training features and CSP filter (w)
+        %fbCspTrainOVO(miData,filterBands, nFilter, extendChannels)
         [tPred,w] = fbCspTrainOVO(tMIData,bandFilters,nFilters);
         
         %Evaluation data takes in previously calculated filter
