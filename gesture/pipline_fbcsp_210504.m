@@ -1,3 +1,5 @@
+clear all;
+
 
 global raw_dir processing_dir electrode_dir;
 [ret, name] = system('hostname');
@@ -126,6 +128,7 @@ for personNumber = 1:nPersons
     nChannels = size(data.X,1);
     lenMISamples = 4*Fs;
     for k = 1:fold*repeatTs
+        fprintf('k: %d.', k);
         
         tTrials = data.trial(tk_train(k,:));
         eTrials = data.trial(tk_test(k,:));
@@ -134,6 +137,7 @@ for personNumber = 1:nPersons
         %%%%%%%%%%%%%%%%%%%%%%%%%
         %%%%%%%%%TRAIN SET%%%%%%%
         %%%%%%%%%%%%%%%%%%%%%%%%%
+        fprintf('Trainging set');
         ntTrials = length(tTrials);
         
         tfilteredX = cell(1, nBands);
@@ -161,6 +165,7 @@ for personNumber = 1:nPersons
         %%%%%%%%%%%%%%%%%%%%%%%%%
         %%%%%%%%%Test SET%%%%%%%%
         %%%%%%%%%%%%%%%%%%%%%%%%%
+        fprintf('Testing set');
         neTrials = length(eTrials);
         
         efilteredX = cell(1, nBands);
@@ -188,6 +193,7 @@ for personNumber = 1:nPersons
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         %%%%%%%%%%%%%% TRAIN %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        fprintf('Trainging...');
         
         %Training data - spits out training features and CSP filter (w)
         %fbCspTrainOVO(miData,filterBands, nFilter, extendChannels)

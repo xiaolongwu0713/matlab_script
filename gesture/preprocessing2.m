@@ -27,7 +27,7 @@ for i=1:sessionNum
     title('raw signal');
     
     OME=[0.5 400];
-    BCIdata=cFilterD_EEG(BCIdata,AllchannelNum,Fs,2,OME);
+    BCIdata=cFilterD_EEG(BCIdata,AllchannelNum,Fs,2,OME); % with a Notch filter
     subplot(212);plot(BCIdata(:,1));
     title('filtered signal');
 %% alignment of feature_lable and EMG.

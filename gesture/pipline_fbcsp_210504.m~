@@ -1,4 +1,5 @@
 
+
 global raw_dir processing_dir electrode_dir;
 [ret, name] = system('hostname');
 if strcmp(strip(name),'longsMac')
@@ -89,13 +90,14 @@ nPersons=1;
 pn=5;
 for personNumber = 1:nPersons
     
-    pn = Inf(personNumber, 1);
+    %pn = Inf(personNumber, 1);
     Fs = 1000;  
     %%%%%%%%%%%
     %LOAD DATA%
     %%%%%%%%%%%
     
-    strname = strcat(processing_dir,'P',num2str(pn),'/preprocessing2/preprocessingALL_2.mat');
+    %strname = strcat(processing_dir,'preprocessing_data.test/P',num2str(pn),'/preprocessing2/preprocessingALL_2.mat');
+    strname='/Volumes/Samsung_T5/data/gesture/preprocessing_data.test/P5/preprocessing2/preprocessingALL_2.mat'
     load(strname, 'Datacell');
     
     SEEG = [Datacell{1};Datacell{2}];
@@ -125,6 +127,7 @@ for personNumber = 1:nPersons
     nChannels = size(data.X,1);
     lenMISamples = 4*Fs;
     for k = 1:fold*repeatTs
+        fprintf('k: %d.', k);
         
         tTrials = data.trial(tk_train(k,:));
         eTrials = data.trial(tk_test(k,:));
@@ -133,6 +136,7 @@ for personNumber = 1:nPersons
         %%%%%%%%%%%%%%%%%%%%%%%%%
         %%%%%%%%%TRAIN SET%%%%%%%
         %%%%%%%%%%%%%%%%%%%%%%%%%
+        fprintf('Trainging set');
         ntTrials = length(tTrials);
         
         tfilteredX = cell(1, nBands);
@@ -160,6 +164,7 @@ for personNumber = 1:nPersons
         %%%%%%%%%%%%%%%%%%%%%%%%%
         %%%%%%%%%Test SET%%%%%%%%
         %%%%%%%%%%%%%%%%%%%%%%%%%
+        fprintf('Testing set');
         neTrials = length(eTrials);
         
         efilteredX = cell(1, nBands);
@@ -187,6 +192,7 @@ for personNumber = 1:nPersons
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         %%%%%%%%%%%%%% TRAIN %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        fprintf('Trainging...');
         
         %Training data - spits out training features and CSP filter (w)
         %fbCspTrainOVO(miData,filterBands, nFilter, extendChannels)

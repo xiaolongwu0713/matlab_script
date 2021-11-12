@@ -37,6 +37,8 @@ nClassifiers = 3;
 nFilters = 1;
 nBands = 9;
 freqInterval = {[1,4],[4,8],[8,13],[13,30],[60,75],[75,95],[105,125],[125,145],[155,195]};
+low=[1,4,8,13,60,75,105,125,155];
+high=[4,8,13,30,75,95,125,145,195];
 order = 6;
 fs = 1000;
 type = 'butter';
@@ -54,8 +56,7 @@ dataAll = zeros(nPersons,nClassifiers);
 %%%%%%%%%%%%%%%%MAKE FILTERS%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-
-bandFilters = initializeFilter(nBands,freqInterval,order,fs,type);
+bandFilters = initializeFilter(nBands,low,high,order,fs,type);
 
 
 
