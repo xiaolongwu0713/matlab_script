@@ -3,7 +3,13 @@
 % x-axis: low frequencies of phase
 % y-axis: high frequencies of power
 %% Figure 30.7
-channel1=[1:13,17:22];
+%channel1=[1:13,17:22]; %sid=5 running.....
+channel1=[11:16,44:48];% sid=6 
+channel1=[15,16,22,30:32,40,47];% sid=7
+channel1=[2,3,4,7,8,9,11,24,35:38,40];% sid=9
+channel1=[19,20,21,41,42,53:56,59,61,64];% sid=10
+channel1=[3,4,5,6,23,24,63];% sid=11
+channel1=[1:4,10:13,38,39];% sid=11
 channel2=channel1;
 %channel2plot = '1';
 
