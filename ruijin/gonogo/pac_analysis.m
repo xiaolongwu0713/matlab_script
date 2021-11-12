@@ -1,6 +1,6 @@
 %%
 [a,computer]=system('hostname');
-pn = 5;
+
 if strcmp(strip(computer),'longsMac')
     data_dir='/Volumes/Samsung_T5/data/ruijin/gonogo/';
     eeglab_path='/Users/long/Documents/BCI/matlab_plugin/eeglab2021.1';
@@ -11,6 +11,7 @@ elseif strcmp(strip(computer),'workstation')
     addpath(eeglab_path);
 end
 
+pn = 5;
 file=strcat(data_dir,'preprocessing/P',num2str(pn),'/preprocessing/preprocessingv2.mat');
 
 load(file);

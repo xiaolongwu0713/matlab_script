@@ -3,13 +3,19 @@
 % x-axis: low frequencies of phase
 % y-axis: high frequencies of power
 %% Figure 30.7
-channel1=1:63;
+%channel1=[1:13,17:22]; %sid=5 rn
+channel1=[11:16,44:48];% sid=6 
+channel1=[15,16,22,30:32,40,47];% sid=7
+channel1=[2,3,4,7,8,9,11,24,35:38,40];% sid=9
+channel1=[19,20,21,41,42,53:56,59,61,64];% sid=10
+channel1=[3,4,5,6,23,24,63];% sid=11
+channel1=[1:4,10:13,38,39];% sid=11
 channel2=channel1;
 %channel2plot = '1';
 
 %times2plot = -500:100:3500;
 freq4phase = 2:1:15; % Hz
-freq4power = 20:2:150; 
+freq4power = 20:2:200; 
 
 %cfc_numcycles  = 3;   % number of cycles at phase-frequency
 cfc_time_window = 3000;
@@ -31,6 +37,7 @@ for c1 = channel1 % phase low frequency
   
     for c2 = c1 % same channel coupling
         pacz = zeros(size(freq4phase,2),size(freq4power,2));
+        pac_sig= zeros(size(freq4phase,2),size(freq4power,2));
         i=1;
         for phasef = freq4phase
             
@@ -90,7 +97,7 @@ for c1 = channel1 % phase low frequency
                 end
 
                 pacz(i,j) = (obsPAC-mean(permutedPAC))/std(permutedPAC);
-                pac_base_sig(j,k,i,kk) = normcdf(-abs((obsPAC_base - mean(permutedPAC_base)) / std(permutedPAC_base)), 0, 1) .* 2;
+                pac_sig(i,j) = normcdf(-abs((obsPAC - mean(permutedPAC)) / std(permutedPAC)), 0, 1) .* 2;
                 %end
                 j=j+1;
             end
