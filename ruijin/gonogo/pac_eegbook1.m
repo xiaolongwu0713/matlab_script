@@ -106,11 +106,11 @@ for c1 = channel1 % phase low frequency
         end
         comb=strcat('c',num2str(c1),'_',num2str(c2));
         result.(comb)=pacz;
-        
+        result_sig.(comb)=pac_sig;
     end
 end
 filename=EEG.setname;
-save(filename,'result');
+save(filename,'result','result_sig');
 % 
 % 
 % figure
