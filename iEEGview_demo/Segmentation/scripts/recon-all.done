@@ -1,0 +1,13 @@
+------------------------------
+SUBJECT S2_Demo
+START_TIME Sun Nov 6 02:30:45 EST 2016
+END_TIME Mon Nov 7 10:10:22 EST 2016
+RUNTIME_HOURS 31.660
+USER fsuser
+HOST xubuntu-VirtualBox
+PROCESSOR i686
+OS Linux
+UNAME Linux xubuntu-VirtualBox 3.2.0-23-generic #36-Ubuntu SMP Tue Apr 10 20:41:14 UTC 2012 i686 i686 i386 GNU/Linux
+VERSION $Id: recon-all,v 1.379.2.73 2013/05/12 23:15:37 nicks Exp $
+CMDPATH /usr/local/freesurfer/bin/recon-all
+CMDARGS -s S2_Demo -all
