@@ -44,7 +44,6 @@ fs = 1000;
 type = 'butter';
 
 
-
 meanMatrix = cell(2,nFilters);
 predAll = zeros(1,0);
 classesAll = predAll;
