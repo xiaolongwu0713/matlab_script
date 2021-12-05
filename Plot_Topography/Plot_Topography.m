@@ -1,12 +1,13 @@
-%% calculate the electrode contribution  by Guangye Li (liguangye.hust@Gmail.com)
+%% plot surface activation map or 3-d brain+electrode
 %%
 addpath(genpath([cd,'\nicebrain']));
-activations(:,1)=Etala.ele_activation_gamma; % here put the activation value of each contact to variable: activations
+load('/Users/long/Documents/BCI/matlab_scripts/Plot_Topography/BrainElectrodes/Cui_Jiuju.mat')
+activations(:,1)=tala.activations;
+%activations(:,1)=Etala.ele_activation_gamma; % here put the activation value of each contact to variable: activations
 %%
-Etala=load('/Users/long/Documents/BCI/matlab_scripts/Plot_Topography/ShuYunFan/BrainModel/S29_Demo.mat');
-subject_directory='./ShuYunFan';
+subject_directory='./BrainElectrodes';
 NormSubj=1;
-plotbrainfunction(cortex.vert, cortex.tri, Etala, activations, NormSubj, subject_directory);
+plotbrainfunction(cortex.vert, cortex.tri, tala, activations, NormSubj, subject_directory);
 % check the meanings of each input, cortex: brain model. Etala: electrode locations
 % some information for Etala for reference.
 % Etala.pos=elec_Info_Final.pos];

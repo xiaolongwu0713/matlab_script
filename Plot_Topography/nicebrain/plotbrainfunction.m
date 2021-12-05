@@ -130,7 +130,7 @@ cmapstruct.cmax = max(tala.activations(:,ix));
 
 % save the activateBrain structure in subjectDir/MATLAB
 placeToSaveFile = strcat(pathToSubjectDir, '/MATLAB/', subjectID, '.mat');
- save(placeToSaveFile, 'cmapstruct', 'cortex', 'ix', 'tala', 'vcontribs', 'viewstruct');
+save(placeToSaveFile, 'cmapstruct', 'cortex', 'ix', 'tala', 'vcontribs', 'viewstruct');
 
 % run activateBrain to generate the visualization
 activateBrain(cortex, vcontribs, tala, ix, cmapstruct, viewstruct);

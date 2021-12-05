@@ -1,7 +1,7 @@
 %%
 global raw_dir processing_dir electrode_dir;
 [ret, name] = system('hostname');
-if strcmp(strip(name),'longsMac')
+if strcmp(strip(name),'Longsmac.local')
     raw_dir='/Volumes/Samsung_T5/data/gesture/Raw_Data_All/';
     electrode_dir='/Volumes/Samsung_T5/data/gesture/EleCTX_Files/';
     processing_dir='/Volumes/Samsung_T5/data/gesture/preprocessing/';
@@ -24,7 +24,6 @@ Inf = [2, 1000; 3, 1000; 4, 1000; 5, 1000; 7, 1000; 8, 1000; 9, 1000; 10, 2000; 
        35, 1000; % 36,37,38,39,40    
 	   41,2000;
        ];
- Inf=[36,2000; 37,2000;38,2000;39,2000];
 %goodSubj = [2,3,8,9,12,16,18,21,22,26];
 goodSubj = [8,]; % sid=10
 Inf = Inf(goodSubj,:);
@@ -32,38 +31,16 @@ Inf = Inf(goodSubj,:);
 
 %%
 
-    pn = 41;
-    Fs = 2000;
-    
-    % 合并 trigger 向量.
-    % EMG 信号的预处理.
-    % 剔除噪声通道.
-     subInfo = config_gesture(pn);
+pn = 10;
+Fs = 2000;
+
+subInfo = config_gesture(pn);
 %     
-    preprocessing1(pn, Fs, subInfo);
-    
-    % SEEG 信号预处理， 滤波, 重参考, 
-    % 获得EMG 对应的trigger 对齐为切片做准备.
-    
-     preprocessing2(pn, 1000);
-    
-    % preprocess for DeepConvNet.
-%     preprocessing3(pn, 1000);
-    
-%     pre_3_psd_v2(pn, 1000)
-    
-    %pre_3_psd_v3(pn)
+pre_1_Algorithm(pn, Fs, subInfo);
+
+pre_2_Algorithm(pn, 1000);
+
+pre_3_Algorithm_v3(pn, 1000);
 
 
-
-
-
-
-%% process individually
-
-%pn=5;
-%Fs=1000;
-%subInfo = config(pn);
-%preprocessing1(pn, 1000, subInfo)
-%preprocessing2(pn, 1000)
 
